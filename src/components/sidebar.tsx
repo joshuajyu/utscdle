@@ -1,4 +1,6 @@
 import { Calendar, Timer, User2, ChevronUp } from "lucide-react";
+import { MapPin } from "lucide-react";
+
 
 import {
   Sidebar,
@@ -38,7 +40,10 @@ export function AppSidebar() {
   return (
     <Sidebar collapsible="icon">
       <SidebarHeader>
-        <SidebarGroupLabel><h1 className=" font-bold text-lg">UTSCdle</h1></SidebarGroupLabel>
+        <SidebarGroupLabel>
+          <MapPin className="h-10 w-10 text-white mr-2" />
+          <h1 className=" font-bold text-lg">UTSCdle</h1>
+        </SidebarGroupLabel>
       </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>

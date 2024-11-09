@@ -20,14 +20,14 @@ export default function RootLayout({
     <html lang="en">
       <body className={`dark ${inter.className} antialiased`}>
         <SidebarProvider>
-          <div className="flex h-screen w-screen">
+          <div className="flex h-full w-screen">
             {/* Sidebar */}
             <AppSidebar />
-            <div className="flex-none w-min bg-gradient-to-b from-zinc-900 to-zinc-800">
+            <div className="flex-none w-min bg-zinc-800">
               <SidebarTrigger className="p-2 m-1" />
             </div>
             {/* Main Content */}
-            <div className="flex-1 flex items-start justify-center bg-gradient-to-b from-zinc-900 to-zinc-800">
+            <div className="flex-1 flex items-start justify-center bg-zinc-800">
               {children}
             </div>
           </div>
