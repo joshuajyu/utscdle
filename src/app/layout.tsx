@@ -24,7 +24,7 @@ export default function RootLayout({
             {/* Sidebar */}
             <AppSidebar />
             <div className="flex-none w-min bg-gradient-to-b from-zinc-900 to-zinc-800">
-              <SidebarTrigger />
+              <SidebarTrigger className="p-2 m-1" />
             </div>
             {/* Main Content */}
             <div className="flex-1 flex items-start justify-center bg-gradient-to-b from-zinc-900 to-zinc-800">
