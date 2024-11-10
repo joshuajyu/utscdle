@@ -1,49 +1,51 @@
-'use client'
+"use client";
 
-import React, { useEffect, useState } from 'react';
-import Image from 'next/image';
+import React, { useEffect, useState } from "react";
+import Image from "next/image";
 
 interface PixelatedImageProps {
   src: string;
   desiredBlocks?: number;
   alt?: string;
   className?: string;
-  guessNumber?: number; // New prop to control visible quarters
+  guessNumber?: number;
 }
 
 const PixelatedImage: React.FC<PixelatedImageProps> = ({
   src,
   desiredBlocks = 50,
-  alt = 'Pixelated Image',
-  className = '',
+  alt = "Pixelated Image",
+  className = "",
   guessNumber = 1, // Default to 1 quarter visible
 }) => {
-  const [processedImageSrc, setProcessedImageSrc] = useState<string | null>(null);
+  const [processedImageSrc, setProcessedImageSrc] = useState<string | null>(
+    null
+  );
   const [imageWidth, setImageWidth] = useState<number | null>(null);
   const [imageHeight, setImageHeight] = useState<number | null>(null);
 
   useEffect(() => {
     const img1 = new window.Image();
-    img1.crossOrigin = 'anonymous';
+    img1.crossOrigin = "anonymous";
     img1.onload = () => {
       const w = img1.width;
       const h = img1.height;
       setImageWidth(w);
       setImageHeight(h);
 
-      // If all quarters are visible, return the original image
+      // Return the original image if the guessNumber is greater than 4
       if (guessNumber >= 4) {
         setProcessedImageSrc(src);
         return;
       }
 
-      // Calculate sampleSize based on desired number of blocks
+      // Describes how many blocks the images should be across
       const sampleSize = Math.max(Math.floor(w / desiredBlocks), 1);
 
-      const canvas = document.createElement('canvas');
+      const canvas = document.createElement("canvas");
       canvas.width = w;
       canvas.height = h;
-      const ctx = canvas.getContext('2d');
+      const ctx = canvas.getContext("2d");
       if (!ctx) return;
 
       ctx.drawImage(img1, 0, 0);
@@ -64,17 +66,16 @@ const PixelatedImage: React.FC<PixelatedImageProps> = ({
             ctx.fillStyle = `rgba(${r},${g},${b},${a})`;
             ctx.fillRect(x, y, sampleSize, sampleSize);
           }
-          // Else, leave the block unpixelated
         }
       }
 
-      const dataURL = canvas.toDataURL('image/jpeg');
+      const dataURL = canvas.toDataURL("image/jpeg");
       setProcessedImageSrc(dataURL);
     };
     img1.src = src;
   }, [src, desiredBlocks, guessNumber]);
 
-  // Function to determine if a block should be pixelated
+  // Determine if a block should be pixelated
   function shouldPixelate(
     x: number,
     y: number,
@@ -84,12 +85,6 @@ const PixelatedImage: React.FC<PixelatedImageProps> = ({
   ): boolean {
     const halfW = w / 2;
     const halfH = h / 2;
-
-    // Quarters:
-    // 1: Top-left
-    // 2: Top-right
-    // 3: Bottom-left
-    // 4: Bottom-right
 
     let quarter = 0;
 
@@ -105,9 +100,9 @@ const PixelatedImage: React.FC<PixelatedImageProps> = ({
 
     // If the quarter is within the visible quarters, do not pixelate
     if (quarter <= visibleQuarters) {
-      return false; // Do not pixelate
+      return false;
     } else {
-      return true; // Pixelate
+      return true;
     }
   }
 

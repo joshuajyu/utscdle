@@ -14,7 +14,7 @@ export default function Home() {
         </p>
       </div>
 
-      {/* Image Section */}
+      {/* Image and Map Section */}
       <div className="flex flex-col sm:flex-row sm:space-x-6 items-start justify-center w-full px-4 mb-4">
         {/* Pixelated Image */}
         <div className="w-full sm:w-1/2">
