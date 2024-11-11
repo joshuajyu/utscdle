@@ -1,4 +1,4 @@
-import { Calendar, Timer, User2, ChevronUp } from "lucide-react";
+import { Calendar, Timer, User2, ChevronUp, Plus } from "lucide-react";
 import { MapPin } from "lucide-react";
 
 
@@ -33,6 +33,11 @@ const items = [
     title: "Race",
     url: "#",
     icon: Timer,
+  },
+  {
+    title: "Submit an Image",
+    url: "#",
+    icon: Plus,
   },
 ];
 

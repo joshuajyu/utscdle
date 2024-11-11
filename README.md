@@ -1,36 +1,37 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+## Deploy to VM
 
-## Getting Started
+Build the reverse proxy:
 
-First, run the development server:
+```docker build -t nginx:latest -f nginx/Dockerfile nginx```
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+Build UTSCdle:
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+```docker build -t utscdle:latest -f Dockerfile .```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Save the Docker images to your local machine (replace PATH):
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```docker save -o [PATH]/nginx.tar.gz nginx:latest```
 
-## Learn More
+```docker save -o [PATH]/utscdle.tar.gz utscdle:latest```
 
-To learn more about Next.js, take a look at the following resources:
+Transfer images and compose.yaml to the host machine using scp:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```scp [PATH]/nginx.tar.gz joshuayu@34.130.208.104:~```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```scp [PATH]/utscdle.tar.gz joshuayu@34.130.208.104:~```
 
-## Deploy on Vercel
+```scp compose.yaml joshuayu@34.130.208.104:~```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+SSH into the VM:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```ssh 34.130.208.104```
+
+On the VM, load the two images into Docker:
+
+```docker load -i nginx.tar.gz```
+
+```docker load -i utscdle.tar.gz```
+
+Start the container:
+
+```docker compose up -d```
