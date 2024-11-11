@@ -21,11 +21,11 @@ export default function Home() {
         {/* Pixelated Image */}
         <div className="w-full sm:w-1/2">
           <PixelatedImage
-            src="/mountain2.jpg"
+            src="/walkway.jpg"
             desiredBlocks={30}
             alt="UTSC Image"
             guessNumber={3}
-            className="w-full h-auto"
+            className=""
           />
         </div>
 

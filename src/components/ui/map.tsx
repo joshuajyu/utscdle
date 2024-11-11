@@ -34,7 +34,7 @@ const userOptions = {
 
 const MapComponent = () => {
 	return (
-		<div className="w-full">
+		<div>
 			<GoogleMap
 				mapContainerStyle={container}
 				center={center}

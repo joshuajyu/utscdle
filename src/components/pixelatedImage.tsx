@@ -107,7 +107,7 @@ const PixelatedImage: React.FC<PixelatedImageProps> = ({
   }
 
   return (
-    <div className={`flex flex-col items-center justify-center ${className}`}>
+    <div>
       {processedImageSrc && imageWidth && imageHeight && (
         <Image
           src={processedImageSrc}
@@ -115,7 +115,7 @@ const PixelatedImage: React.FC<PixelatedImageProps> = ({
           width={imageWidth}
           height={imageHeight}
           unoptimized
-          className="w-full h-auto"
+          className=""
         />
       )}
     </div>
