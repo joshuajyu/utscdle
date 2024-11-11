@@ -17,15 +17,14 @@ export default function Home() {
       </div>
 
       {/* Image and Map Section */}
-      <div className="flex flex-col sm:flex-row sm:space-x-6 items-start justify-center w-full px-4 mb-4">
+      <div className="flex flex-col sm:flex-row sm:space-x-6 items-center justify-center p-4 bg-[#424242] rounded-xl shadow-2xl mb-4 mr-6">
         {/* Pixelated Image */}
         <div className="w-full sm:w-1/2">
           <PixelatedImage
-            src="/mountain.jpg"
+            src="/mountain2.jpg"
             desiredBlocks={30}
             alt="UTSC Image"
             guessNumber={3}
-            className=""
           />
         </div>
 

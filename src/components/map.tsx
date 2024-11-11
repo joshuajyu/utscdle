@@ -49,7 +49,7 @@ const MapComponent = () => {
       const latLng = event.latLng;
       if (latLng) {
         setMarkerPosition(latLng);
-        setMapCenter(latLng.toJSON());
+        // setMapCenter(latLng.toJSON());
         setAttemptCount(attemptCount + 1);
         const distance = calculateDistance(
           targetLocation.lat,
@@ -95,22 +95,16 @@ const MapComponent = () => {
     height: "50vh",
   };
 
-  //Default frame
-  /*
-	const center = {
-		lat: 43.7831200,
-		lng: -79.1870963
-	}
-	*/
-
   const zoom = 18;
 
   const userOptions = {
     zoomControl: true,
     tilt: 0,
     gestureHandling: "auto",
-    mapTypeId: "hybrid",
     disableDefaultUI: true,
+    mapTypeControl: true,
+    fullscreenControl: true,
+    scaleControl: true,
     disableDoubleClickZoom: true,
     restriction: {
       // Restrict users to only look around UTSC campus
@@ -124,19 +118,25 @@ const MapComponent = () => {
     },
   };
   return (
-    <div className="w-full">
+    <div className="">
       <GoogleMap
-        mapContainerStyle={container}
+        mapContainerStyle={{
+          width: "100%",
+          height: "50vh",
+          minHeight: "200px",
+          borderRadius: "12px",
+        }}
         center={mapCenter}
+        clickableIcons={false}
         zoom={zoom}
         options={userOptions}
         onDblClick={handleMapDblClick}
       >
         {markerPosition && (
-          <Marker position={markerPosition} draggable={true} />
+          <Marker position={markerPosition} draggable={false} />
         )}
       </GoogleMap>
-      <UserGuesses attempts={attempts}/>
+      <UserGuesses attempts={attempts} />
     </div>
   );
 };

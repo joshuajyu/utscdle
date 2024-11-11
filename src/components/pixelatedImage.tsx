@@ -7,7 +7,6 @@ interface PixelatedImageProps {
   src: string;
   desiredBlocks?: number;
   alt?: string;
-  className?: string;
   guessNumber?: number;
 }
 
@@ -106,7 +105,7 @@ const PixelatedImage: React.FC<PixelatedImageProps> = ({
   }
 
   return (
-    <div>
+    <div className="flex items-center justify-center">
       {processedImageSrc && imageWidth && imageHeight && (
         <Image
           src={processedImageSrc}
@@ -114,7 +113,7 @@ const PixelatedImage: React.FC<PixelatedImageProps> = ({
           width={imageWidth}
           height={imageHeight}
           unoptimized
-          className=""
+          className="max-h-[50vh] object-contain rounded-lg mx-auto overflow-hidden"
         />
       )}
     </div>
