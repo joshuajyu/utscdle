@@ -21,7 +21,7 @@ export default function Home() {
         {/* Pixelated Image */}
         <div className="w-full sm:w-1/2">
           <PixelatedImage
-            src="/mountain2.jpg"
+            src="./mountain2.jpg"
             desiredBlocks={30}
             alt="UTSC Image"
             guessNumber={3}
