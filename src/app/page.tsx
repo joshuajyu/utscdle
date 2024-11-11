@@ -1,7 +1,7 @@
 import { MapPin } from "lucide-react";
 import PixelatedImage from "@/components/pixelatedImage";
 import { MapProvider } from "../hooks/mapProvider";
-import { MapComponent } from ".././components/ui/map";
+import { MapComponent } from "../components/map";
 
 export default function Home() {
   return (

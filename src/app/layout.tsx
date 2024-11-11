@@ -18,7 +18,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`dark ${inter.className} antialiased`}>
+      <body className={`${inter.className} antialiased`}>
         <SidebarProvider>
           <div className="flex h-full w-screen">
             {/* Sidebar */}
