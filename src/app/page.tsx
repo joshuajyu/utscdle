@@ -5,7 +5,7 @@ import { MapComponent } from "../components/map";
 
 export default function Home() {
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center">
+    <div className="min-h-screen flex flex-col items-center justify-center w-full">
       <div className="py-10 px-4 sm:px-6 lg:px-8 text-center">
         <div className="flex flex-col sm:flex-row items-center justify-center">
           <MapPin className="h-10 w-10 text-white sm:mr-4 mr-0" />
@@ -17,7 +17,7 @@ export default function Home() {
       </div>
 
       {/* Image and Map Section */}
-      <div className="flex flex-col sm:flex-row sm:space-x-6 items-center justify-center p-4 bg-[#424242] rounded-xl shadow-2xl mb-4 mr-6">
+      <div className="flex flex-col sm:flex-row sm:space-x-6 w-full items-center p-4 bg-[#424242] rounded-xl shadow-2xl mb-4 mr-6">
         {/* Pixelated Image */}
         <div className="w-full sm:w-1/2">
           <PixelatedImage

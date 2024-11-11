@@ -113,7 +113,7 @@ const PixelatedImage: React.FC<PixelatedImageProps> = ({
           width={imageWidth}
           height={imageHeight}
           unoptimized
-          className="max-h-[50vh] object-contain rounded-lg mx-auto overflow-hidden"
+          className="max-h-[50vh] object-contain mx-auto overflow-hidden"
         />
       )}
     </div>

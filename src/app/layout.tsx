@@ -27,7 +27,7 @@ export default function RootLayout({
               <SidebarTrigger className="p-2 m-1" />
             </div>
             {/* Main Content */}
-            <div className="flex-1 flex items-start justify-center bg-zinc-800">
+            <div className="flex-1 flex items-start justify-center bg-zinc-800 w-full">
               {children}
             </div>
           </div>
