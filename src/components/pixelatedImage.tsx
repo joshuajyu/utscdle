@@ -15,7 +15,6 @@ const PixelatedImage: React.FC<PixelatedImageProps> = ({
   src,
   desiredBlocks = 50,
   alt = "Pixelated Image",
-  className = "",
   guessNumber = 1, // Default to 1 quarter visible
 }) => {
   const [processedImageSrc, setProcessedImageSrc] = useState<string | null>(

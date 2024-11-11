@@ -120,7 +120,7 @@ const MapComponent = () => {
 				{markerPosition && <Marker position={markerPosition} draggable={false} />}
 			</GoogleMap>
 			<div className="mt-4 p-4 bg-gray-700 rounded shadow-md w-full">
-        <h2 className="text-xl font-bold text-center">User's Attempts</h2>
+        <h2 className="text-xl font-bold text-center">User&apos;s Attempts</h2>
         <table className="min-w-full mt-4">
           <thead>
             <tr className="bg-gray-600 border-b align-middle">
