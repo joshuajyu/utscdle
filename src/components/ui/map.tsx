@@ -78,7 +78,7 @@ const MapComponent = () => {
 
 	const container = {
 		width: '100%',
-		height: '300px'
+		height: '50vh'
 	};
 
 	//Default frame 
@@ -117,7 +117,7 @@ const MapComponent = () => {
 				options={userOptions}
 				onDblClick={handleMapDblClick}
 			>
-				{markerPosition && <Marker position={markerPosition} draggable={true} />}
+				{markerPosition && <Marker position={markerPosition} draggable={false} />}
 			</GoogleMap>
 			<div className="mt-4 p-4 bg-gray-700 rounded shadow-md w-full">
         <h2 className="text-xl font-bold text-center">User's Attempts</h2>
