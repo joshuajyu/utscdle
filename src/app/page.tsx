@@ -1,5 +1,7 @@
 import { MapPin } from "lucide-react";
 import PixelatedImage from "@/components/pixelatedImage";
+import { MapProvider } from "../hooks/mapProvider";
+import { MapComponent } from ".././components/ui/map";
 
 export default function Home() {
   return (
@@ -29,13 +31,9 @@ export default function Home() {
 
         {/* Placeholder for Second Component */}
         <div className="w-full sm:w-1/2 mt-4 sm:mt-0">
-          <PixelatedImage
-            src="/mountain.jpg"
-            desiredBlocks={30}
-            alt="UTSC Image"
-            guessNumber={2}
-            className="w-full h-auto"
-          />
+          <MapProvider>
+            <MapComponent />
+          </MapProvider>
         </div>
       </div>
 
