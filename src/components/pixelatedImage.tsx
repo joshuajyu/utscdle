@@ -2,26 +2,28 @@
 
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
+import { useMapContext } from "@/hooks/mapProvider";
 
 interface PixelatedImageProps {
   src: string;
   desiredBlocks?: number;
   alt?: string;
-  guessNumber?: number;
+  // guessNumber?: number;
 }
 
 const PixelatedImage: React.FC<PixelatedImageProps> = ({
   src,
   desiredBlocks = 50,
   alt = "Pixelated Image",
-  guessNumber = 1, // Default to 1 quarter visible
+  // guessNumber = 1, // Default to 1 quarter visible
 }) => {
+  const {attempts} = useMapContext();
   const [processedImageSrc, setProcessedImageSrc] = useState<string | null>(
     null
   );
   const [imageWidth, setImageWidth] = useState<number | null>(null);
   const [imageHeight, setImageHeight] = useState<number | null>(null);
-
+  const guessNumber = attempts.length + 1;
   useEffect(() => {
     const img1 = new window.Image();
     img1.crossOrigin = "anonymous";

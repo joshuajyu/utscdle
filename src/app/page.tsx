@@ -24,21 +24,21 @@ export default function Home() {
           {/* Pixelated Image */}
           <div className="w-full sm:w-1/2">
             <PixelatedImage
-              src="/mountain2.jpg"
+              src="/walkway.jpg"
               desiredBlocks={30}
               alt="UTSC Image"
-              guessNumber={3}
+              // guessNumber={2}
             />
           </div>
 
-          {/* Placeholder for Second Component */}
+          {/* Map Component */}
           <div className="w-full sm:w-1/2 mt-4 sm:mt-0">
             <MapComponent />
           </div>
         </div>
         <div className="flex flex-col space-y-6 w-1/2 items-center bg-[#424242] rounded-xl shadow-2xl"></div>
         <CheckDistanceButton />
-        <div className="w-60">
+        <div className="w-60 h-60">
           <AttemptTable />
         </div>
       </MapProvider>
