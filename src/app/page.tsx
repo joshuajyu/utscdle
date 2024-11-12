@@ -1,7 +1,9 @@
 import { MapPin } from "lucide-react";
 import PixelatedImage from "@/components/pixelatedImage";
-import { MapProvider } from "../hooks/mapProvider";
-import { MapComponent } from "../components/map";
+import { MapProvider } from "@/hooks/mapProvider";
+import { MapComponent } from "@/components/map";
+import AttemptTable from "@/components/attemptTable";
+import CheckDistanceButton from "@/components/confirmButton";
 
 export default function Home() {
   return (
@@ -17,24 +19,29 @@ export default function Home() {
       </div>
 
       {/* Image and Map Section */}
-      <div className="flex flex-col sm:flex-row sm:space-x-6 w-full items-center p-4 bg-[#424242] rounded-xl shadow-2xl mb-4 mr-6">
-        {/* Pixelated Image */}
-        <div className="w-full sm:w-1/2">
-          <PixelatedImage
-            src="/mountain2.jpg"
-            desiredBlocks={30}
-            alt="UTSC Image"
-            guessNumber={3}
-          />
-        </div>
+      <MapProvider>
+        <div className="flex flex-col sm:flex-row sm:space-x-6 w-full items-center p-4 bg-[#424242] rounded-xl shadow-2xl mb-4 mr-6">
+          {/* Pixelated Image */}
+          <div className="w-full sm:w-1/2">
+            <PixelatedImage
+              src="/mountain2.jpg"
+              desiredBlocks={30}
+              alt="UTSC Image"
+              guessNumber={3}
+            />
+          </div>
 
-        {/* Placeholder for Second Component */}
-        <div className="w-full sm:w-1/2 mt-4 sm:mt-0">
-          <MapProvider>
+          {/* Placeholder for Second Component */}
+          <div className="w-full sm:w-1/2 mt-4 sm:mt-0">
             <MapComponent />
-          </MapProvider>
+          </div>
         </div>
-      </div>
+        <div className="flex flex-col space-y-6 w-1/2 items-center bg-[#424242] rounded-xl shadow-2xl"></div>
+        <CheckDistanceButton />
+        <div className="w-60">
+          <AttemptTable />
+        </div>
+      </MapProvider>
 
       <footer className="mt-auto"></footer>
     </div>

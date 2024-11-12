@@ -1,3 +1,6 @@
+"use client";
+
+import { useMapContext } from "@/hooks/mapProvider";
 import {
   Table,
   TableBody,
@@ -6,10 +9,10 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import React from "react";
 
-const UserGuesses = (props: {
-  attempts: { attempt: number; distance: number }[];
-}) => {
+const AttemptTable: React.FC = () => {
+  const { attempts } = useMapContext();
   return (
     <Table>
       <TableHeader>
@@ -19,7 +22,7 @@ const UserGuesses = (props: {
         </TableRow>
       </TableHeader>
       <TableBody>
-        {props.attempts.map((attempt, index) => (
+        {attempts.map((attempt, index) => (
           <TableRow key={index}>
             <TableCell className="font-medium">{attempt.attempt}</TableCell>
             <TableCell className="font-medium text-right">
@@ -32,4 +35,4 @@ const UserGuesses = (props: {
   );
 };
 
-export default UserGuesses;
+export default AttemptTable;
