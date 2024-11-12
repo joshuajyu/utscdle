@@ -17,13 +17,20 @@ const PixelatedImage: React.FC<PixelatedImageProps> = ({
   alt = "Pixelated Image",
   // guessNumber = 1, // Default to 1 quarter visible
 }) => {
-  const {attempts} = useMapContext();
+  const {attempts, isSuccessful} = useMapContext();
   const [processedImageSrc, setProcessedImageSrc] = useState<string | null>(
     null
   );
   const [imageWidth, setImageWidth] = useState<number | null>(null);
   const [imageHeight, setImageHeight] = useState<number | null>(null);
-  const guessNumber = attempts.length + 1;
+
+  let guessNumber: number;
+  if (isSuccessful) {
+    guessNumber = 4;
+  } else { 
+    guessNumber = attempts.length + 1;
+  }
+
   useEffect(() => {
     const img1 = new window.Image();
     img1.crossOrigin = "anonymous";
@@ -114,6 +121,7 @@ const PixelatedImage: React.FC<PixelatedImageProps> = ({
           alt={`Processed ${alt}`}
           width={imageWidth}
           height={imageHeight}
+          priority = {true}
           unoptimized
           className="max-h-[50vh] object-contain mx-auto overflow-hidden"
         />
