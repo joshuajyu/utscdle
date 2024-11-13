@@ -6,6 +6,8 @@ import AttemptTable from "@/components/attemptTable";
 import CheckDistanceButton from "@/components/confirmButton";
 
 export default function Home() {
+  const currentDate = () => new Date().toDateString();
+
   return (
     <div className="min-h-screen flex flex-col items-center justify-center w-full">
       <div className="py-10 px-4 sm:px-6 lg:px-8 text-center">
@@ -15,6 +17,9 @@ export default function Home() {
         </div>
         <p className="mt-3 text-lg text-gray-300">
           Inspired by Geoguessr™ and Wordle™
+        </p>
+        <p className="mt-3 text-lg text-gray-300">
+          {currentDate()}
         </p>
       </div>
 
