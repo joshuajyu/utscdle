@@ -2,6 +2,7 @@ import { MapPin } from "lucide-react";
 import PixelatedImage from "@/components/pixelatedImage";
 import { MapProvider } from "@/hooks/mapProvider";
 import { MapComponent } from "@/components/map";
+import { HowToPlay } from "@/components/howToPlay";
 import AttemptTable from "@/components/attemptTable";
 import CheckDistanceButton from "@/components/confirmButton";
 
@@ -10,6 +11,8 @@ export default function Home() {
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center w-full">
+      <HowToPlay />
+
       <div className="py-10 px-4 sm:px-6 lg:px-8 text-center">
         <div className="flex flex-col sm:flex-row items-center justify-center">
           <MapPin className="h-10 w-10 text-white sm:mr-4 mr-0" />
