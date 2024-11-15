@@ -19,13 +19,6 @@ const rowColors = (attempt: number, threshold: number) => {
   }
 }
 
-const rowColorsOnHover = (attempt: number, threshold: number) => {
-  if (attempt <= threshold) {
-    return "hover:bg-green-600";
-  } else {
-    return "hover:bg-red-600";
-  }
-}
 
 const AttemptTable: React.FC = () => {
   const { attempts } = useMapContext();
@@ -39,7 +32,7 @@ const AttemptTable: React.FC = () => {
       </TableHeader>
       <TableBody>
         {attempts.map((attempt, index) => (
-          <TableRow key={index} className={`${rowColors(Number(attempt.distance.toFixed(2)), 20)} hover:${rowColorsOnHover(Number(attempt.distance.toFixed(2)), 20)}`}>
+          <TableRow key={index} className={`${rowColors(Number(attempt.distance.toFixed(2)), 20)}`}>
             <TableCell className="font-medium rounded-s-full">{attempt.attempt}</TableCell>
             <TableCell className="font-medium text-right rounded-e-full">
               {attempt.distance.toFixed(2)} m
