@@ -1,4 +1,4 @@
-import { Calendar, Timer, User2, ChevronUp, Plus } from "lucide-react";
+import { Calendar, Timer, User2, ChevronUp, ImagePlus, ChartColumn, GalleryHorizontalEnd } from "lucide-react";
 import { MapPin } from "lucide-react";
 
 
@@ -13,7 +13,6 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-  SidebarTrigger,
 } from "@/components/ui/sidebar";
 
 import {
@@ -36,9 +35,19 @@ const items = [
     icon: Timer,
   },
   {
+    title: "Collections",
+    url: "#",
+    icon: GalleryHorizontalEnd,
+  },
+  {
+    title: "Leaderboard",
+    url: "#",
+    icon: ChartColumn,
+  },
+  {
     title: "Submit an Image",
     url: "#",
-    icon: Plus,
+    icon: ImagePlus,
   },
 ];
 
