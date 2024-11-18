@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, MouseEvent } from "react";
 import Image from "next/image";
 import { useMapContext } from "@/hooks/mapProvider";
 
@@ -8,26 +8,39 @@ interface PixelatedImageProps {
   src: string;
   desiredBlocks?: number;
   alt?: string;
-  // guessNumber?: number;
 }
+
+const MAGNIFIER_SIZE = 100;
+const ZOOM_LEVEL = 2.5;
 
 const PixelatedImage: React.FC<PixelatedImageProps> = ({
   src,
   desiredBlocks = 50,
   alt = "Pixelated Image",
-  // guessNumber = 1, // Default to 1 quarter visible
 }) => {
-  const {attempts, isSuccessful} = useMapContext();
+  const { attempts, isSuccessful } = useMapContext();
   const [processedImageSrc, setProcessedImageSrc] = useState<string | null>(
     null
   );
   const [imageWidth, setImageWidth] = useState<number | null>(null);
   const [imageHeight, setImageHeight] = useState<number | null>(null);
 
+  // State variables for the magnifier
+  const [zoomable, setZoomable] = useState<boolean>(false);
+  const [imageSize, setImageSize] = useState<{ width: number; height: number }>(
+    { width: 0, height: 0 }
+  );
+  const [position, setPosition] = useState<{
+    x: number;
+    y: number;
+    mouseX: number;
+    mouseY: number;
+  }>({ x: 0, y: 0, mouseX: 0, mouseY: 0 });
+
   let guessNumber: number;
   if (isSuccessful) {
     guessNumber = 4;
-  } else { 
+  } else {
     guessNumber = attempts.length + 1;
   }
 
@@ -40,13 +53,11 @@ const PixelatedImage: React.FC<PixelatedImageProps> = ({
       setImageWidth(w);
       setImageHeight(h);
 
-      // Return the original image if the guessNumber is greater than 4
       if (guessNumber >= 4) {
         setProcessedImageSrc(src);
         return;
       }
 
-      // Describes how many blocks the images should be across
       const sampleSize = Math.max(Math.floor(w / desiredBlocks), 1);
 
       const canvas = document.createElement("canvas");
@@ -60,7 +71,6 @@ const PixelatedImage: React.FC<PixelatedImageProps> = ({
       const imageData = ctx.getImageData(0, 0, w, h);
       const pixelArr = imageData.data;
 
-      // Loop over blocks
       for (let y = 0; y < h; y += sampleSize) {
         for (let x = 0; x < w; x += sampleSize) {
           if (shouldPixelate(x, y, w, h, guessNumber)) {
@@ -82,7 +92,6 @@ const PixelatedImage: React.FC<PixelatedImageProps> = ({
     img1.src = src;
   }, [src, desiredBlocks, guessNumber]);
 
-  // Determine if a block should be pixelated
   function shouldPixelate(
     x: number,
     y: number,
@@ -96,35 +105,82 @@ const PixelatedImage: React.FC<PixelatedImageProps> = ({
     let quarter = 0;
 
     if (x < halfW && y < halfH) {
-      quarter = 1; // Top-left
+      quarter = 1;
     } else if (x >= halfW && y < halfH) {
-      quarter = 2; // Top-right
+      quarter = 2;
     } else if (x < halfW && y >= halfH) {
-      quarter = 3; // Bottom-left
+      quarter = 3;
     } else {
-      quarter = 4; // Bottom-right
+      quarter = 4;
     }
 
-    // If the quarter is within the visible quarters, do not pixelate
-    if (quarter <= visibleQuarters) {
-      return false;
-    } else {
-      return true;
-    }
+    return quarter > visibleQuarters;
   }
+
+  // Event handlers for the magnifier
+  const handleMouseEnter = (e: MouseEvent<HTMLDivElement>) => {
+    const element = e.currentTarget;
+    const { width, height } = element.getBoundingClientRect();
+    setImageSize({ width, height });
+    setZoomable(true);
+    updatePosition(e);
+  };
+
+  const handleMouseLeave = (e: MouseEvent<HTMLDivElement>) => {
+    setZoomable(false);
+  };
+
+  const handleMouseMove = (e: MouseEvent<HTMLDivElement>) => {
+    updatePosition(e);
+  };
+
+  const updatePosition = (e: MouseEvent<HTMLDivElement>) => {
+    const { left, top } = e.currentTarget.getBoundingClientRect();
+    const x = e.clientX - left;
+    const y = e.clientY - top;
+    setPosition({
+      x: -x * ZOOM_LEVEL + MAGNIFIER_SIZE / 2,
+      y: -y * ZOOM_LEVEL + MAGNIFIER_SIZE / 2,
+      mouseX: x - MAGNIFIER_SIZE / 2,
+      mouseY: y - MAGNIFIER_SIZE / 2,
+    });
+  };
 
   return (
     <div className="flex items-center justify-center">
       {processedImageSrc && imageWidth && imageHeight && (
-        <Image
-          src={processedImageSrc}
-          alt={`Processed ${alt}`}
-          width={imageWidth}
-          height={imageHeight}
-          priority = {true}
-          unoptimized
-          className="max-h-[50vh] object-contain mx-auto overflow-hidden"
-        />
+        <div
+          className="max-h-[50vh] object-contain mx-auto overflow-hidden relative cursor-none"
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
+          onMouseMove={handleMouseMove}
+        >
+          <Image
+            src={processedImageSrc}
+            alt={`Processed ${alt}`}
+            width={imageWidth}
+            height={imageHeight}
+            priority={true}
+            unoptimized
+            className="max-h-[50vh] object-contain w-full rounded-md border-4 border-white"
+          />
+          {zoomable && (
+            <div
+              style={{
+                backgroundPosition: `${position.x}px ${position.y}px`,
+                backgroundImage: `url(${processedImageSrc})`,
+                backgroundSize: `${imageSize.width * ZOOM_LEVEL}px ${
+                  imageSize.height * ZOOM_LEVEL
+                }px`,
+                top: `${position.mouseY}px`,
+                left: `${position.mouseX}px`,
+                width: `${MAGNIFIER_SIZE}px`,
+                height: `${MAGNIFIER_SIZE}px`,
+              }}
+              className="z-50 border-4 object-contain rounded-full pointer-events-none absolute border-gray-500 bg-no-repeat"
+            />
+          )}
+        </div>
       )}
     </div>
   );
