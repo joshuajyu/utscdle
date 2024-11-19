@@ -128,6 +128,7 @@ const PixelatedImage: React.FC<PixelatedImageProps> = ({
 
   const handleMouseLeave = (e: MouseEvent<HTMLDivElement>) => {
     setZoomable(false);
+    updatePosition(e);
   };
 
   const handleMouseMove = (e: MouseEvent<HTMLDivElement>) => {
@@ -150,7 +151,7 @@ const PixelatedImage: React.FC<PixelatedImageProps> = ({
     <div className="flex items-center justify-center">
       {processedImageSrc && imageWidth && imageHeight && (
         <div
-          className="max-h-[50vh] object-contain mx-auto overflow-hidden relative cursor-none"
+          className="object-contain mx-auto overflow-hidden relative cursor-none"
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
           onMouseMove={handleMouseMove}
@@ -162,7 +163,7 @@ const PixelatedImage: React.FC<PixelatedImageProps> = ({
             height={imageHeight}
             priority={true}
             unoptimized
-            className="max-h-[50vh] object-contain w-full rounded-md border-4 border-white"
+            className="max-h-[50vh] sm:max-h-[65vh] object-contain w-full rounded-md border-4 border-white"
           />
           {zoomable && (
             <div

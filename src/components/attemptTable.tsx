@@ -26,7 +26,7 @@ const AttemptTable: React.FC = () => {
     <Table>
       <TableHeader>
         <TableRow>
-          <TableHead className="w-[100px]">Attempt</TableHead>
+          <TableHead className="w-[120px]">Attempt</TableHead>
           <TableHead className="text-right">Distance (m)</TableHead>
         </TableRow>
       </TableHeader>

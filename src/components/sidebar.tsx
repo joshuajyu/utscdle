@@ -1,7 +1,5 @@
 import { Calendar, Timer, User2, ChevronUp, ImagePlus, ChartColumn, GalleryHorizontalEnd } from "lucide-react";
 import { MapPin } from "lucide-react";
-
-
 import {
   Sidebar,
   SidebarContent,
@@ -14,39 +12,39 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
-
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import Link from 'next/link';
 
 // Menu items.
 const items = [
   {
     title: "Daily Challenge",
-    url: "#",
+    url: "/daily-challenge",
     icon: Calendar,
   },
   {
     title: "Race",
-    url: "#",
+    url: "/race",
     icon: Timer,
   },
   {
     title: "Collections",
-    url: "#",
+    url: "/collections",
     icon: GalleryHorizontalEnd,
   },
   {
     title: "Leaderboard",
-    url: "#",
+    url: "/leaderboard",
     icon: ChartColumn,
   },
   {
     title: "Submit an Image",
-    url: "#",
+    url: "/submit-image",
     icon: ImagePlus,
   },
 ];
@@ -57,7 +55,7 @@ export function AppSidebar() {
       <SidebarHeader>
         <SidebarGroupLabel>
           <MapPin className="h-10 w-10 text-white mr-2" />
-          <h1 className=" font-bold text-lg">UTSCdle</h1>
+          <h1 className="font-bold text-lg">UTSCdle</h1>
         </SidebarGroupLabel>
       </SidebarHeader>
       <SidebarContent>
@@ -67,10 +65,10 @@ export function AppSidebar() {
               {items.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild>
-                    <a href={item.url}>
-                      <item.icon />
+                    <Link href={item.url} className="flex items-center">
+                      <item.icon className="mr-2" />
                       <span>{item.title}</span>
-                    </a>
+                    </Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}
