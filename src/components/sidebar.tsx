@@ -1,3 +1,5 @@
+"use client";
+
 import { Calendar, Timer, User2, ChevronUp, ImagePlus, ChartColumn, GalleryHorizontalEnd } from "lucide-react";
 import { MapPin } from "lucide-react";
 import {
@@ -19,6 +21,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import Link from 'next/link';
+import { usePathname } from "next/navigation";
 
 // Menu items.
 const items = [
@@ -50,6 +53,7 @@ const items = [
 ];
 
 export function AppSidebar() {
+  const pathname = usePathname();
   return (
     <Sidebar collapsible="icon">
       <SidebarHeader>
@@ -64,7 +68,7 @@ export function AppSidebar() {
             <SidebarMenu>
               {items.map((item) => (
                 <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild>
+                  <SidebarMenuButton asChild isActive={pathname === item.url}>
                     <Link href={item.url} className="flex items-center">
                       <item.icon className="mr-2" />
                       <span>{item.title}</span>
