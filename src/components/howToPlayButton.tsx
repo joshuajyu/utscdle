@@ -16,7 +16,7 @@ const HowToPlayButton = () => {
   return (
     <>
       <HowToPlay open={open} setOpen={setOpen} />
-      <div className="fixed bottom-4 right-4">
+      <div className="fixed bottom-4 right-4 z-50">
         <Button variant="default" onClick={() => setOpen(true)} className="rounded-full p-3">
           <CircleHelp strokeWidth={2}/> How To Play
         </Button>
