@@ -5,6 +5,7 @@ import { MapComponent } from "@/components/map";
 import AttemptTable from "@/components/attemptTable";
 import CheckDistanceButton from "@/components/confirmButton";
 import HowToPlayButton from "@/components/howToPlayButton";
+import { signIn } from "@/lib/auth";
 
 export default function DailyChallenge() {
   const currentDate = () => new Date().toDateString();
