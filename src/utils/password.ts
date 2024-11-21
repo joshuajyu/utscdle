@@ -1,11 +1,5 @@
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 
-/**
- * Hashes a password with a generated salt using bcrypt.
- * @param password - The plain text password to hash.
- * @returns A promise that resolves to the salted and hashed password.
- * @throws An error if the hashing process fails.
- */
 export async function saltAndHashPassword(password: any): Promise<string> {
   if (!password) {
     throw new Error("Password cannot be empty");

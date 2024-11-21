@@ -1,11 +1,15 @@
 // configuration for Auth.js
-import NextAuth from "next-auth";
+import NextAuth, { CredentialsSignin, User } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import Google from "next-auth/providers/google";
-import { saltAndHashPassword } from "@/utils/password";
+import bcrypt from "bcryptjs";
 import { MongoDBAdapter } from "@auth/mongodb-adapter";
 import { getUserFromDb } from "@/utils/getUser";
 import client from "@/utils/db";
+
+class InvalidLoginError extends CredentialsSignin {
+  code = "Invalid credentials!";
+}
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   adapter: MongoDBAdapter(client),
@@ -22,27 +26,23 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       authorize: async (credentials) => {
         let user = null;
 
-        // logic to salt and hash password
-        const pwHash = await saltAndHashPassword(credentials.password);
-
         // logic to verify if the user exists
-        user = await getUserFromDb(
-          credentials.email as string,
-          pwHash as string
-        );
+        user = await getUserFromDb(credentials.email as string);
 
-        if (!user) {
+        if (
+          !user ||
+          !bcrypt.compareSync(credentials.password as string, user.password)
+        ) {
           // No user found, so this is their first attempt to login
-          // Optionally, this is also the place you could do a user registration
-          throw new Error("Invalid credentials.");
+          throw new InvalidLoginError();
         }
 
         // return user object with their profile data
         return {
-          id: user.id.toString(), // Convert ObjectId to string
+          id: user.id.toString(),
           email: user.email,
           name: user.name,
-        };
+        } as User;
       },
     }),
     Google,
@@ -51,5 +51,9 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     async signIn(message) {
       console.log(message);
     },
+  },
+  session: {
+    strategy: "jwt",
+    maxAge: 2592000,
   },
 });

@@ -1,6 +1,6 @@
 import client from "@/utils/db";
 
-export async function getUserFromDb(email: string, pwHash: string) {
+export async function getUserFromDb(email: string) {
   try {
     // Connect to the database
     const db = client.db();
@@ -9,7 +9,6 @@ export async function getUserFromDb(email: string, pwHash: string) {
     // Query the collection for a matching user
     const user = await collection.findOne({
       email,
-      password: pwHash,
     });
 
     // If no user is found, return null
@@ -22,6 +21,7 @@ export async function getUserFromDb(email: string, pwHash: string) {
       id: user._id, // MongoDB uses _id as the unique identifier
       email: user.email,
       name: user.name,
+      password: user.password,
       // Add other fields you want to return
     };
   } catch (error) {
