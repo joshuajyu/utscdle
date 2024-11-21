@@ -27,7 +27,7 @@ export function AuthPopup() {
       {content === "sign-in" && (
         <SignInContent setOpen={setOpen} setContent={setContent} />
       )}
-      {content === "sign-up" && <SignUpContent/>}
+      {content === "sign-up" && <SignUpContent setOpen={setOpen}/>}
     </Dialog>
   );
 }

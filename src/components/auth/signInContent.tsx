@@ -8,14 +8,10 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 import { SignInForm } from "@/components/auth/signInForm";
-import { signInGoogleWrapper } from "@/lib/signIn";
+import { signInGoogleWrapper } from "@/lib/actions/auth";
+import { SignInProps } from "@/components/auth/props";
 
-interface SignInContentProps {
-  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  setContent: React.Dispatch<React.SetStateAction<string>>;
-}
-
-export function SignInContent({ setOpen, setContent }: SignInContentProps) {
+export function SignInContent({ setOpen, setContent }: SignInProps) {
   return (
     <DialogContent className="items-center">
       <DialogHeader className="items-center">

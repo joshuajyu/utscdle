@@ -14,13 +14,15 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { signUpSchema } from "@/lib/zod";
+import { signUpSchema } from "@/lib/models/zod";
+import { signUp } from "@/lib/actions/signUp";
+import { SignUpProps } from "@/components/auth/props";
 
-export function SignUpForm() {
+export function SignUpForm({ setOpen }: SignUpProps) {
   const form = useForm<z.infer<typeof signUpSchema>>({
     resolver: zodResolver(signUpSchema),
     defaultValues: {
-      username: "",
+      name: "",
       email: "",
       password: "",
       confirmPassword: "",
@@ -30,7 +32,7 @@ export function SignUpForm() {
   function onSubmit(values: z.infer<typeof signUpSchema>) {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
-    // TODO: Add signup logic
+    signUp(values).then(() => setOpen(false));
   }
 
   return (
@@ -41,16 +43,12 @@ export function SignUpForm() {
       >
         <FormField
           control={form.control}
-          name="username"
+          name="name"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Username</FormLabel>
               <FormControl>
-                <Input
-                  placeholder="Must be at least 3 characters"
-                  {...field}
-                  type="email"
-                />
+                <Input placeholder="Must be at least 3 characters" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>

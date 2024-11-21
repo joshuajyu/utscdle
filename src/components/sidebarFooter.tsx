@@ -16,7 +16,7 @@ import { AuthPopup } from "@/components/auth/authPopup";
 
 export async function AuthFooter() {
   const session = await auth();
-  if (!session) {
+  if (!session?.user) {
     return (
       <SidebarFooter>
         <SidebarMenu>
@@ -34,7 +34,7 @@ export async function AuthFooter() {
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <SidebarMenuButton>
-                <User2 /> Username
+                <User2 /> {session.user.name}
                 <ChevronUp className="ml-auto" />
               </SidebarMenuButton>
             </DropdownMenuTrigger>

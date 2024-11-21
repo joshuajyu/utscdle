@@ -19,6 +19,7 @@ import {
 } from "@/components/ui/sidebar";
 import Link from "next/link";
 import { AuthFooter } from "@/components/sidebarFooter";
+import { Suspense } from "react";
 
 // Menu items.
 const items = [
@@ -76,7 +77,9 @@ export function AppSidebar() {
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
-      <AuthFooter />
+      <Suspense>
+        <AuthFooter />
+      </Suspense>
     </Sidebar>
   );
 }
