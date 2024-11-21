@@ -33,16 +33,6 @@ export async function AuthFooter() {
       <SidebarFooter>
         <SidebarMenu>
           <SidebarMenuItem>
-            {/* <SidebarMenuButton
-              className="bg-[#424242] hover:bg-[#2d2d2d] text-white"
-              onClick={async () => {
-                "use server";
-                await signIn("google");
-              }}
-            >
-              <LogIn strokeWidth={3} />
-              <span className="font-bold text-lg">Sign in</span>
-            </SidebarMenuButton> */}
             <Dialog>
               <DialogTrigger asChild>
                 <SidebarMenuButton className="bg-slate-500">
@@ -67,10 +57,11 @@ export async function AuthFooter() {
                   </div>
                 </div>
                 <Button
-                  onClick={async () => {
-                    "use server";
-                    await signIn("google");
-                  }}
+                // TODO: Implement sign in functionality
+                  // onClick={async () => {
+                  //   "use server";
+                  //   await signIn("google");
+                  // }}
                 >
                   Sign In
                 </Button>
