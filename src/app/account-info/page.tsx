@@ -1,54 +1,24 @@
-"use client"
-
+import React from "react"
 import { MapPin } from "lucide-react";
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm } from "react-hook-form"
-import { z } from "zod"
-
 import { Button } from "../../components/ui/button"
 import {
-    Form,
-    FormControl,
-    FormDescription,
-    FormField,
-    FormItem,
-    FormLabel,
-    FormMessage,
-} from "../../components/ui/form"
+    Card,
+    CardContent,
+    CardDescription,
+    CardFooter,
+    CardHeader,
+    CardTitle,
+} from "../../components/ui/card"
 import { Input } from "../../components/ui/input"
-import React from "react";
-
-const formSchema = z.object({
-    username: z.string().min(5, {
-        message: "Must be at least 5 characters.",
-    }),
-    currentPassword: z.string(),
-    newPassword: z.string().min(8, {
-        message: "Must be at least 8 characters.",
-    }),
-    email: z.string(),
-}).refine((data) => data.currentPassword === "CURRENTPASS", {   //Must compare to the current password in db, change when db implemented
-    message: "Incorrect password",
-    path: ["currentPassword"], // path of error
-  });
+import { Label } from "../../components/ui/label"
+import {
+    Tabs,
+    TabsContent,
+    TabsList,
+    TabsTrigger,
+} from "../../components/ui/tabs"
 
 export default function DailyChallenge() {
-
-    const form = useForm<z.infer<typeof formSchema>>({
-        resolver: zodResolver(formSchema),
-        defaultValues: {
-            username: "",
-            currentPassword: "",
-            newPassword: "",
-            email: "",
-        },
-    })
-
-    function onSubmit(values: z.infer<typeof formSchema>) {
-        // Do something with the form values.
-        // ✅ This will be type-safe and validated.
-        console.log(values)
-    }
     return (
         <div className="min-h-screen flex flex-col items-center justify-start w-full">
             <div className="pt-4 pb-4 text-center">
@@ -56,76 +26,67 @@ export default function DailyChallenge() {
                     <MapPin className="h-10 w-10 text-white sm:mr-4 mr-0" />
                     <h1 className="text-3xl font-bold text-white sm:text-4xl">UTSCdle</h1>
                 </div>
-                <p className="mt-3 text-lg text-gray-300">
-                    Account Information
-                </p>
             </div>
-            <div className="h-full flex flex-col items-center justify-start w-96 bg-gray-600 rounded-lg">
-                <div className="mt-6 mb-8">
-                    <Form {...form}>
-                        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-                            <FormField
-                                control={form.control}
-                                name="username"
-                                render={({ field }) => (
-                                    <FormItem>
-                                        <FormLabel>Username</FormLabel>
-                                        <FormControl>
-                                            <Input placeholder="username" {...field} />
-                                        </FormControl>
-                                        <FormMessage />
-                                    </FormItem>
-                                )}
-                            />
-                            <FormField
-                                control={form.control}
-                                name="currentPassword"
-                                render={({ field }) => (
-                                    <FormItem>
-                                        <FormLabel>Current Password</FormLabel>
-                                        <FormControl>
-                                            <Input placeholder="*******" {...field} />
-                                        </FormControl>
-                                        <FormMessage />
-                                    </FormItem>
-
-                                )}
-                            />
-                            <FormField
-                                control={form.control}
-                                name="newPassword"
-                                render={({ field }) => (
-                                    <FormItem>
-                                        <FormLabel>New Password</FormLabel>
-                                        <FormControl>
-                                            <Input placeholder="*******" {...field} />
-                                        </FormControl>
-                                        <FormMessage />
-                                    </FormItem>
-
-                                )}
-                            />
-                            <FormField
-                                control={form.control}
-                                name="email"
-                                render={({ field }) => (
-                                    <FormItem>
-                                        <FormLabel>Email</FormLabel>
-                                        <FormControl>
-                                            <Input placeholder="email" {...field} />
-                                        </FormControl>
-                                        <FormMessage />
-                                    </FormItem>
-
-                                )}
-                            />
-                            <Button type="submit">Save Changes</Button>
-                        </form>
-                    </Form>
-                </div>
-
-            </div>
-
+            <Tabs defaultValue="account" className="w-[400px]">
+                <TabsList className="grid w-full grid-cols-2">
+                    <TabsTrigger value="account">Account</TabsTrigger>
+                    <TabsTrigger value="password">Password</TabsTrigger>
+                </TabsList>
+                <TabsContent value="account">
+                    <Card>
+                        <CardHeader>
+                            <CardTitle>Account</CardTitle>
+                            <CardDescription>
+                                Edit your account information here.
+                            </CardDescription>
+                        </CardHeader>
+                        <CardContent className="space-y-2">
+                            <div className="space-y-1">
+                                <Label htmlFor="name">Name</Label>
+                                <Input id="name" defaultValue="Domingo" />
+                            </div>
+                            <div className="space-y-1">
+                                <Label htmlFor="username">Username</Label>
+                                <Input id="username" defaultValue="@Domingo" />
+                            </div>
+                            <div className="space-y-1">
+                                <Label htmlFor="email">Email</Label>
+                                <Input id="email" defaultValue="espresso@gmail.com" />
+                            </div>
+                        </CardContent>
+                        <CardFooter>
+                            <Button>Save changes</Button>
+                        </CardFooter>
+                    </Card>
+                </TabsContent>
+                <TabsContent value="password">
+                    <Card>
+                        <CardHeader>
+                            <CardTitle>Password</CardTitle>
+                            <CardDescription>
+                                Change your password here.
+                            </CardDescription>
+                        </CardHeader>
+                        <CardContent className="space-y-2">
+                            <div className="space-y-1">
+                                <Label htmlFor="current">Current password</Label>
+                                <Input id="current" type="password" />
+                            </div>
+                            <div className="space-y-1">
+                                <Label htmlFor="new">New password</Label>
+                                <Input id="new" type="password" />
+                            </div>
+                            <div className="space-y-1">
+                                <Label htmlFor="confirmNew">Confirm new password</Label>
+                                <Input id="confirmNew" type="password" />
+                            </div>
+                        </CardContent>
+                        <CardFooter>
+                            <Button>Save password</Button>
+                        </CardFooter>
+                    </Card>
+                </TabsContent>
+            </Tabs>
         </div>
 
     )
