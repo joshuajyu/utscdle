@@ -1,11 +1,15 @@
 // configuration for Auth.js
-import NextAuth from "next-auth";
+import NextAuth, { CredentialsSignin } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import Google from "next-auth/providers/google";
 import { saltAndHashPassword } from "@/utils/password";
 import { MongoDBAdapter } from "@auth/mongodb-adapter";
 import { getUserFromDb } from "@/utils/getUser";
 import client from "@/utils/db";
+
+class InvalidLoginError extends CredentialsSignin {
+  code = "Invalid credentials!";
+}
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   adapter: MongoDBAdapter(client),
@@ -33,8 +37,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
         if (!user) {
           // No user found, so this is their first attempt to login
-          // Optionally, this is also the place you could do a user registration
-          throw new Error("Invalid credentials.");
+          throw new InvalidLoginError();
         }
 
         // return user object with their profile data

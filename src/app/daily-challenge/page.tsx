@@ -26,7 +26,7 @@ export default function DailyChallenge() {
 
       {/* Image and Map Section */}
       <MapProvider>
-        <div className="flex flex-col sm:flex-row sm:space-x-6 w-full items-center p-4 bg-[#424242] rounded-xl shadow-2xl mb-4 mr-6">
+        <div className="flex flex-col sm:flex-row sm:space-x-6 w-full items-center p-4 bg-zinc-700 rounded-xl shadow-2xl mb-4 mr-6">
           {/* Pixelated Image */}
           <div className="w-full sm:w-1/2">
             <PixelatedImage
