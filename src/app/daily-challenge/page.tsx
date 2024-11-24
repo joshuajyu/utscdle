@@ -5,6 +5,7 @@ import { MapComponent } from "@/components/map";
 import AttemptTable from "@/components/attemptTable";
 import CheckDistanceButton from "@/components/confirmButton";
 import HowToPlayButton from "@/components/howToPlayButton";
+import { signIn } from "@/lib/auth";
 
 export default function DailyChallenge() {
   const currentDate = () => new Date().toDateString();
@@ -28,7 +29,7 @@ export default function DailyChallenge() {
 
       {/* Image and Map Section */}
       <MapProvider>
-        <div className="flex flex-col sm:flex-row sm:space-x-6 w-full items-center p-4 bg-[#424242] rounded-xl shadow-2xl mb-4 mr-6">
+        <div className="flex flex-col sm:flex-row sm:space-x-6 w-full items-center p-4 bg-zinc-700 rounded-xl shadow-2xl mb-4 mr-6">
           {/* Pixelated Image */}
           <div className="w-full sm:w-1/2">
             <PixelatedImage

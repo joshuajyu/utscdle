@@ -1,11 +1,14 @@
-"use client";
-
-import { Calendar, Timer, User2, ChevronUp, ImagePlus, ChartColumn, GalleryHorizontalEnd } from "lucide-react";
+import {
+  Calendar,
+  Timer,
+  ImagePlus,
+  ChartColumn,
+  GalleryHorizontalEnd,
+} from "lucide-react";
 import { MapPin } from "lucide-react";
 import {
   Sidebar,
   SidebarContent,
-  SidebarFooter,
   SidebarGroup,
   SidebarGroupContent,
   SidebarGroupLabel,
@@ -14,14 +17,10 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import Link from 'next/link';
-import { usePathname } from "next/navigation";
+import Link from "next/link";
+import { AuthFooter } from "@/components/sidebarFooter";
+import { auth } from "@/lib/auth";
+import { Suspense } from "react";
 
 // Menu items.
 const items = [
@@ -29,31 +28,39 @@ const items = [
     title: "Daily Challenge",
     url: "/daily-challenge",
     icon: Calendar,
+    accountRequired: false,
   },
   {
     title: "Race",
     url: "/race",
     icon: Timer,
+    accountRequired: true,
   },
   {
     title: "Collections",
     url: "/collections",
     icon: GalleryHorizontalEnd,
+    accountRequired: true,
   },
   {
     title: "Leaderboard",
     url: "/leaderboard",
     icon: ChartColumn,
+    accountRequired: true,
   },
   {
     title: "Submit an Image",
     url: "/submit-image",
     icon: ImagePlus,
+    accountRequired: true,
   },
 ];
 
-export function AppSidebar() {
-  const pathname = usePathname();
+export async function AppSidebar() {
+  const session = await auth();
+  const filteredItems = session
+    ? items
+    : items.filter((item) => !item.accountRequired);
   return (
     <Sidebar collapsible="icon">
       <SidebarHeader>
@@ -66,7 +73,7 @@ export function AppSidebar() {
         <SidebarGroup>
           <SidebarGroupContent>
             <SidebarMenu>
-              {items.map((item) => (
+              {filteredItems.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild isActive={pathname === item.url}>
                     <Link href={item.url} className="flex items-center">
@@ -80,31 +87,9 @@ export function AppSidebar() {
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
-      <SidebarFooter>
-        <SidebarMenu>
-          <SidebarMenuItem>
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <SidebarMenuButton>
-                  <User2 /> Username
-                  <ChevronUp className="ml-auto" />
-                </SidebarMenuButton>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent
-                side="top"
-                className="w-[--radix-popper-anchor-width]"
-              >
-                <DropdownMenuItem>
-                  <span>Account</span>
-                </DropdownMenuItem>
-                <DropdownMenuItem>
-                  <span>Sign out</span>
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-          </SidebarMenuItem>
-        </SidebarMenu>
-      </SidebarFooter>
+      <Suspense>
+        <AuthFooter />
+      </Suspense>
     </Sidebar>
   );
 }
