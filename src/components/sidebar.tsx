@@ -75,7 +75,7 @@ export async function AppSidebar() {
             <SidebarMenu>
               {filteredItems.map((item) => (
                 <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild isActive={pathname === item.url}>
+                  <SidebarMenuButton asChild>
                     <Link href={item.url} className="flex items-center">
                       <item.icon className="mr-2" />
                       <span>{item.title}</span>
