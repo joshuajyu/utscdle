@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { AppSidebar } from "@/components/sidebar";
+import { AppSidebar } from "@/components/sidebar/sidebar";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { inter } from "@/components/ui/fonts";
 import { SidebarTrigger } from "@/components/ui/sidebar";
