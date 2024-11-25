@@ -5,6 +5,7 @@ import { MapComponent } from "@/components/map";
 import AttemptTable from "@/components/attemptTable";
 import CheckDistanceButton from "@/components/confirmButton";
 import HowToPlayButton from "@/components/howToPlayButton";
+import Timer from "../../components/timer";
 
 export default function DailyChallenge() {
   const currentDate = () => new Date().toDateString();
@@ -21,6 +22,7 @@ export default function DailyChallenge() {
           Inspired by Geoguessr™ and Wordle™
         </p>
         <p className="mt-3 text-lg text-gray-300">{currentDate()}</p>
+        <Timer/>
       </div>
 
       {/* Image and Map Section */}
