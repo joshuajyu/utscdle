@@ -35,7 +35,7 @@ const MapComponent = () => {
     },
   };
 
-  let currentPosition = markerPosition;
+  const currentPosition = markerPosition;
   const targetLocation = { lat: 43.7861633, lng: -79.1880963 };
   let displayCenter = mapCenter.current;
 
