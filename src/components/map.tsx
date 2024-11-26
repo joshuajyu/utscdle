@@ -1,8 +1,8 @@
 "use client";
 
-import { GoogleMap, Marker, Circle } from "@react-google-maps/api";
+import { GoogleMap, Marker, Circle, Polyline } from "@react-google-maps/api";
 import { useRef } from "react";
-import { useMapContext } from "@/hooks/mapProvider";
+import { useMapContext } from "../hooks/mapProvider";
 
 const MapComponent = () => {
   const { markerPosition, setMarkerPosition, attempts, maxAttempts, isSuccessful } = useMapContext();
@@ -48,6 +48,12 @@ const MapComponent = () => {
     scaledSize: new window.google.maps.Size(40, 40),
   };
 
+  const redLine = {
+    strokeColor: "#FF0000", // Red color for the line
+    strokeOpacity: 1,       // Full opacity for the line
+    strokeWeight: 2,        // Line width
+  };
+
 
   return (
     <div className="">
@@ -75,12 +81,16 @@ const MapComponent = () => {
               center={displayCenter}
               radius={20} // 20 meters radius
               options={{
-                fillColor: "#00FF00", // Fill color (green)
-                fillOpacity: 0.35,     // Opacity of the circle fill
-                strokeColor: "#00FF00", // Stroke color (green)
-                strokeOpacity: 1,     // Opacity of the stroke
-                strokeWeight: 2,      // Stroke width
+                fillColor: "#00FF00", 
+                fillOpacity: 0.35,     
+                strokeColor: "#00FF00",
+                strokeOpacity: 1,    
+                strokeWeight: 2,     
               }}
+            />
+            <Polyline
+              path={[markerPosition, targetLocation]}  // Path from last attempt marker to correct marker
+              options={redLine}
             />
           </div>
 
