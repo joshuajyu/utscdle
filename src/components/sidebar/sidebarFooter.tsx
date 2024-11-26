@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { auth, signOut } from "@/lib/auth";
 import { AuthPopup } from "@/components/auth/authPopup";
+import Link from "next/link";
 
 export async function AuthFooter() {
   const session = await auth();
@@ -42,8 +43,10 @@ export async function AuthFooter() {
               side="top"
               className="w-[--radix-popper-anchor-width]"
             >
-              <DropdownMenuItem>
-                <span>Account</span>
+              <DropdownMenuItem asChild>
+                <Link href="/account-info">
+                  <span>Account</span>
+                </Link>
               </DropdownMenuItem>
               <DropdownMenuItem
                 onClick={async () => {
