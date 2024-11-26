@@ -17,6 +17,7 @@ interface SuccessPopupProps {
 }
 
 const SuccessPopup: React.FC<SuccessPopupProps> = ({ open, onOpenChange }) => {
+  const finalScore = localStorage.getItem("finalScore");
   return (
     <AlertDialog open={open} onOpenChange={onOpenChange}>
       <AlertDialogContent className="p-2 bg-green-700 border-slate-300 border-4 w-3/4 max-w-96">
@@ -24,6 +25,9 @@ const SuccessPopup: React.FC<SuccessPopupProps> = ({ open, onOpenChange }) => {
           <AlertDialogTitle className="font-bold text-2xl">Congratulations</AlertDialogTitle>
           <AlertDialogDescription className="text-xl text-white">
             You found the location!
+          </AlertDialogDescription>
+          <AlertDialogDescription className="text-xl text-white">
+            Score: {finalScore}
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>

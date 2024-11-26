@@ -1,11 +1,11 @@
 "use client";
 
-import { GoogleMap, Marker } from "@react-google-maps/api";
+import { GoogleMap, Marker, Circle, Polyline } from "@react-google-maps/api";
 import { useRef } from "react";
-import { useMapContext } from "@/hooks/mapProvider";
+import { useMapContext } from "../hooks/mapProvider";
 
 const MapComponent = () => {
-  const { markerPosition, setMarkerPosition } = useMapContext();
+  const { markerPosition, setMarkerPosition, attempts, maxAttempts, isSuccessful } = useMapContext();
   const mapCenter = useRef({ lat: 43.78427807639849, lng: -79.18671957505939 });
   const zoom = 18;
   const placeMarker = (event: google.maps.MapMouseEvent) => {
@@ -35,6 +35,26 @@ const MapComponent = () => {
     },
   };
 
+  const currentPosition = markerPosition;
+  const targetLocation = { lat: 43.7861633, lng: -79.1880963 };
+  let displayCenter = mapCenter.current;
+
+  if (attempts.length >= maxAttempts || isSuccessful) {
+    displayCenter = targetLocation;
+  }
+
+  const correctMarker = {
+    url: "http://maps.google.com/mapfiles/ms/icons/green-dot.png",
+    scaledSize: new window.google.maps.Size(40, 40),
+  };
+
+  const redLine = {
+    strokeColor: "#FF0000", // Red color for the line
+    strokeOpacity: 1,       // Full opacity for the line
+    strokeWeight: 2,        // Line width
+  };
+
+
   return (
     <div className="">
       <GoogleMap
@@ -44,7 +64,7 @@ const MapComponent = () => {
           minHeight: "200px",
           borderRadius: "12px",
         }}
-        center={mapCenter.current}
+        center={displayCenter}
         clickableIcons={false}
         extraMapTypes={[]}
         zoom={zoom}
@@ -52,7 +72,28 @@ const MapComponent = () => {
         onClick={placeMarker}
       >
         {markerPosition && (
-          <Marker position={markerPosition} draggable={false} />
+          <Marker position={currentPosition} draggable={false} />
+        )}
+        {((attempts.length >= maxAttempts) || isSuccessful) && (
+          <div>
+            <Marker position={targetLocation} draggable={false} icon={correctMarker} />
+            <Circle
+              center={displayCenter}
+              radius={20} // 20 meters radius
+              options={{
+                fillColor: "#00FF00", 
+                fillOpacity: 0.35,     
+                strokeColor: "#00FF00",
+                strokeOpacity: 1,    
+                strokeWeight: 2,     
+              }}
+            />
+            <Polyline
+              path={[markerPosition, targetLocation]}  // Path from last attempt marker to correct marker
+              options={redLine}
+            />
+          </div>
+
         )}
       </GoogleMap>
     </div>
