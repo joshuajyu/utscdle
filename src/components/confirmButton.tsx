@@ -1,8 +1,9 @@
 "use client";
 
 import { useMapContext } from "@/hooks/mapProvider";
+import TimerContext from "@/hooks/timerContext";
 import { Button } from "./ui/button";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import SuccessPopup from "./successPopup";
 import FailurePopup from "./failurePopup";
 
@@ -11,7 +12,9 @@ const targetLocation = { lat: 43.7861633, lng: -79.1880963 }; // The coordinate 
 const CheckDistanceButton: React.FC = () => {
   const [successOpen, setSuccessOpen] = useState(false);
   const [failureOpen, setFailureOpen] = useState(false);
-  const { markerPosition, addAttempt, maxAttempts, attempts, isSuccessful } = useMapContext();
+  const { markerPosition, addAttempt, maxAttempts, attempts, isSuccessful } =
+    useMapContext();
+  const { stopTimer, timeElapsed } = useContext(TimerContext);
 
   const calculateDistance = (
     lat1: number,
@@ -32,6 +35,34 @@ const CheckDistanceButton: React.FC = () => {
     return R * c;
   };
 
+  const calculateScore = (
+    finalTime: number,
+    numberOfGuesses: number
+  ): number => {
+    // Ensure finalTime is not negative
+    finalTime = Math.max(0, finalTime);
+
+    // Calculate the score based on the number of guesses
+    let guessesScore = 600 - (numberOfGuesses - 1) * 200;
+    guessesScore = Math.max(200, guessesScore); // Minimum guessesScore is 200
+
+    // Calculate the time score
+    let timeScore = 0;
+    if (finalTime <= 300) {
+      // For times less than or equal to 5 minutes
+      timeScore = 100 + (300 - finalTime); // Ranges from 100 to 400
+    } else {
+      // For times greater than 5 minutes
+      timeScore = 100; // Constant minimum time score
+    }
+
+    // Total score is the sum of guessesScore and timeScore
+    const totalScore = guessesScore + timeScore;
+
+    // Ensure totalScore does not exceed 1000
+    return Math.min(totalScore, 1000);
+  };
+
   const handleCheckDistance = () => {
     if (!markerPosition || attempts.length >= maxAttempts) return;
 
@@ -46,8 +77,16 @@ const CheckDistanceButton: React.FC = () => {
 
     if (distance <= 20) {
       setSuccessOpen(true);
+      stopTimer();
+      localStorage.setItem("finalTime", timeElapsed.toString());
+      const score = calculateScore(timeElapsed, attempts.length + 1);
+      localStorage.setItem("finalScore", score.toString());
     } else if (attempts.length === maxAttempts - 1) {
-      setTimeout(() => setFailureOpen(true), 1000);
+      setTimeout(() => setFailureOpen(true), 500);
+      stopTimer();
+      localStorage.setItem("finalTime", timeElapsed.toString());
+      const score = 0;
+      localStorage.setItem("finalScore", score.toString());
     }
   };
 
@@ -57,7 +96,7 @@ const CheckDistanceButton: React.FC = () => {
       <FailurePopup open={failureOpen} onOpenChange={setFailureOpen} />
       <Button
         onClick={handleCheckDistance}
-        disabled={attempts.length >= maxAttempts || isSuccessful}
+        disabled={attempts.length >= maxAttempts || isSuccessful || localStorage.getItem("finalScore") !== null}
       >
         Check Distance
       </Button>

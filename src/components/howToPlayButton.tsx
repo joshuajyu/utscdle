@@ -7,10 +7,12 @@ import { CircleHelp } from "lucide-react";
 
 const HowToPlayButton = () => {
   const [open, setOpen] = useState(false);
-
-  // Open the dialog when the page loads
+  // Open the dialog when the page loads if the game hasnt started
   useEffect(() => {
-    setOpen(true);
+    const gameStarted = localStorage.getItem("gameStarted");
+    if (!gameStarted) {
+      setOpen(true);
+    }
   }, []);
 
   return (
