@@ -1,11 +1,11 @@
 "use client";
 
-import { GoogleMap, Marker } from "@react-google-maps/api";
+import { GoogleMap, Marker, Circle } from "@react-google-maps/api";
 import { useRef } from "react";
 import { useMapContext } from "@/hooks/mapProvider";
 
 const MapComponent = () => {
-  const { markerPosition, setMarkerPosition, attempts, maxAttempts } = useMapContext();
+  const { markerPosition, setMarkerPosition, attempts, maxAttempts, isSuccessful } = useMapContext();
   const mapCenter = useRef({ lat: 43.78427807639849, lng: -79.18671957505939 });
   const zoom = 18;
   const placeMarker = (event: google.maps.MapMouseEvent) => {
@@ -39,13 +39,13 @@ const MapComponent = () => {
   const targetLocation = { lat: 43.7861633, lng: -79.1880963 };
   let displayCenter = mapCenter.current;
 
-  if (attempts.length >= maxAttempts){
+  if (attempts.length >= maxAttempts || isSuccessful) {
     displayCenter = targetLocation;
   }
 
   const correctMarker = {
     url: "http://maps.google.com/mapfiles/ms/icons/green-dot.png",
-    scaledSize: new window.google.maps.Size(50, 50),
+    scaledSize: new window.google.maps.Size(40, 40),
   };
 
 
@@ -68,8 +68,22 @@ const MapComponent = () => {
         {markerPosition && (
           <Marker position={currentPosition} draggable={false} />
         )}
-        {(attempts.length >= maxAttempts) && (
-          <Marker position={targetLocation} draggable={false} icon={correctMarker} />
+        {((attempts.length >= maxAttempts) || isSuccessful) && (
+          <div>
+            <Marker position={targetLocation} draggable={false} icon={correctMarker} />
+            <Circle
+              center={displayCenter}
+              radius={20} // 20 meters radius
+              options={{
+                fillColor: "#00FF00", // Fill color (green)
+                fillOpacity: 0.35,     // Opacity of the circle fill
+                strokeColor: "#00FF00", // Stroke color (green)
+                strokeOpacity: 1,     // Opacity of the stroke
+                strokeWeight: 2,      // Stroke width
+              }}
+            />
+          </div>
+
         )}
       </GoogleMap>
     </div>
