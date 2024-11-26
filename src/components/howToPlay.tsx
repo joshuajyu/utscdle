@@ -28,19 +28,18 @@ const HowToPlay = ({ open, setOpen }: HowToPlayProps) => {
           picture&apos;s location!
         </AlertDialogDescription>
         <AlertDialogDescription>
-          A quarter of the picture will unpixelate after each attempt.
+          The picture will become more visible after each guess.
         </AlertDialogDescription>
         <AlertDialogDescription>
-          You have a total of <strong>3 guesses</strong> with the following
-          scoring scheme:
+          You have a total of <strong>3 guesses</strong> to find the
+          picture&apos;s location.
         </AlertDialogDescription>
-        <AlertDialogDescription>1 guess = +100 points</AlertDialogDescription>
-        <AlertDialogDescription>2 guesses = +70 points</AlertDialogDescription>
-        <AlertDialogDescription>3 guesses = +20 points</AlertDialogDescription>
         <AlertDialogDescription>
-          NOTE: Pin must be within <strong>20m</strong> of the location to be
-          correct.
+          Your score is based on the number of guesses and the time taken to
+          find the location, and the you must guess within <strong>20m</strong>{" "}
+          of the location to be correct.
         </AlertDialogDescription>
+        <AlertDialogDescription><strong>Good Luck!</strong></AlertDialogDescription>
         <AlertDialogFooter>
           <AlertDialogAction onClick={() => setOpen(false)}>
             Let&apos;s Play
