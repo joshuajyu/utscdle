@@ -5,7 +5,7 @@ import { useRef } from "react";
 import { useMapContext } from "@/hooks/mapProvider";
 
 const MapComponent = () => {
-  const { markerPosition, setMarkerPosition } = useMapContext();
+  const { markerPosition, setMarkerPosition, attempts, maxAttempts } = useMapContext();
   const mapCenter = useRef({ lat: 43.78427807639849, lng: -79.18671957505939 });
   const zoom = 18;
   const placeMarker = (event: google.maps.MapMouseEvent) => {
@@ -35,6 +35,20 @@ const MapComponent = () => {
     },
   };
 
+  let currentPosition = markerPosition;
+  const targetLocation = { lat: 43.7861633, lng: -79.1880963 };
+  let displayCenter = mapCenter.current;
+
+  if (attempts.length >= maxAttempts){
+    displayCenter = targetLocation;
+  }
+
+  const correctMarker = {
+    url: "http://maps.google.com/mapfiles/ms/icons/green-dot.png",
+    scaledSize: new window.google.maps.Size(50, 50),
+  };
+
+
   return (
     <div className="">
       <GoogleMap
@@ -44,7 +58,7 @@ const MapComponent = () => {
           minHeight: "200px",
           borderRadius: "12px",
         }}
-        center={mapCenter.current}
+        center={displayCenter}
         clickableIcons={false}
         extraMapTypes={[]}
         zoom={zoom}
@@ -52,7 +66,10 @@ const MapComponent = () => {
         onClick={placeMarker}
       >
         {markerPosition && (
-          <Marker position={markerPosition} draggable={false} />
+          <Marker position={currentPosition} draggable={false} />
+        )}
+        {(attempts.length >= maxAttempts) && (
+          <Marker position={targetLocation} draggable={false} icon={correctMarker} />
         )}
       </GoogleMap>
     </div>
