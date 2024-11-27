@@ -60,15 +60,15 @@ export function PersonalChart() {
               tickLine={false}
               axisLine={false}
               tickMargin={8}
-              tickFormatter={(value) => value.slice(0, 3)}
+              tickFormatter={(value) => value.slice(0, 8)}
             />
             <ChartTooltip
-              cursor={false}
+              cursor={true}
               content={<ChartTooltipContent indicator="line" />}
             />
             <Line
               dataKey="score"
-              type="natural"
+              type="linear"
               stroke="#e21d48"
               strokeWidth={2}
               dot={{
