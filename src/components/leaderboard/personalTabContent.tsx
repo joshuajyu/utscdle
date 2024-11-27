@@ -15,6 +15,7 @@ import {
   SelectContent,
   SelectItem,
 } from "@/components/ui/select";
+import { PersonalChart } from "./personalChart";
 
 export function PersonalTabContent() {
   return (
@@ -32,7 +33,7 @@ export function PersonalTabContent() {
         </Select>
       </CardHeader>
       <CardContent className="space-y-2">
-        {/* Add your personal scores content here */}
+        <PersonalChart />
       </CardContent>
       <CardFooter>
         {/* Add footer content if needed */}

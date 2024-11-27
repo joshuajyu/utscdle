@@ -23,18 +23,17 @@ import {
   ChartTooltipContent,
 } from "@/components/ui/chart";
 const chartData = [
-    { username: "PixelHunter", score: 980 },
-    { username: "CodeMaster", score: 950 },
-    { username: "MapExplorer", score: 940 },
-    { username: "GeoGuru", score: 930 },
-    { username: "GuessWizard", score: 920 },
-    { username: "TrailBlazer", score: 910 },
-    { username: "Zoomer123", score: 900 },
-    { username: "CampusSniper", score: 890 },
-    { username: "SpotSeeker", score: 880 },
-    { username: "LocationLegend", score: 870 },
-  ];
-  
+  { username: "PixelHunter", score: 980 },
+  { username: "CodeMaster", score: 950 },
+  { username: "MapExplorer", score: 940 },
+  { username: "GeoGuru", score: 930 },
+  { username: "GuessWizard", score: 920 },
+  { username: "TrailBlazer", score: 910 },
+  { username: "Zoomer123", score: 900 },
+  { username: "CampusSniper", score: 890 },
+  { username: "SpotSeeker", score: 880 },
+  { username: "LocationLegend", score: 870 },
+];
 
 const chartConfig = {
   desktop: {
@@ -82,7 +81,7 @@ export function GlobalChart() {
               cursor={false}
               content={<ChartTooltipContent indicator="line" />}
             />
-            <Bar dataKey="score" layout="vertical" fill="#ef4444" radius={4}>
+            <Bar dataKey="score" layout="vertical" fill="#e21d48" radius={5}>
               <LabelList
                 dataKey="username"
                 position="insideLeft"
