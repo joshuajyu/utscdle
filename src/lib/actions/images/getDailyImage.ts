@@ -31,6 +31,20 @@ export const getDailyImage = async () => {
     }
 
     if (!dailyImage) {
+      // Every image has been used, get the earliest used image to cycle
+      dailyImage = await Image.findOneAndUpdate(
+        { usedOnDate: { $ne: null } },
+        {
+          usedOnDate: today, // Update "usedOnDate" to today
+        },
+        {
+          sort: { uploadDate: 1 }, // Sort by earliest upload
+          new: true, // Return the updated document
+        }
+      ).exec();
+    }
+
+    if (!dailyImage) {
       return {
         success: false,
         message: "No available images for today.",
