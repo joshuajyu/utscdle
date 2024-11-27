@@ -2,13 +2,14 @@ import { MapPin } from "lucide-react";
 import PixelatedImage from "@/components/pixelatedImage";
 import { MapProvider } from "@/hooks/mapProvider";
 import { MapComponent } from "@/components/map";
+import { getDailyImage } from "@/lib/actions/images/getDailyImage";
 import AttemptTable from "@/components/attemptTable";
 import CheckDistanceButton from "@/components/confirmButton";
 import HowToPlayButton from "@/components/howToPlayButton";
-import { signIn } from "@/lib/auth";
 
-export default function DailyChallenge() {
+export default async function DailyChallenge() {
   const currentDate = () => new Date().toDateString();
+  const image = await getDailyImage();
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center w-full">
@@ -33,7 +34,7 @@ export default function DailyChallenge() {
           {/* Pixelated Image */}
           <div className="w-full sm:w-1/2">
             <PixelatedImage
-              src="/walkway.jpg"
+              src={`${image.image.url}`}
               desiredBlocks={30}
               alt="UTSC Image"
             />
@@ -45,7 +46,7 @@ export default function DailyChallenge() {
           </div>
         </div>
         <div className="flex flex-col space-y-6 w-1/2 items-center bg-[#424242] rounded-xl shadow-2xl"></div>
-        <CheckDistanceButton />
+        <CheckDistanceButton coords={JSON.stringify(image.image.coordinates)} />
         <div className="w-60 h-44">
           <AttemptTable />
         </div>

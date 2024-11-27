@@ -8,10 +8,18 @@ import FailurePopup from "./failurePopup";
 
 const targetLocation = { lat: 43.7861633, lng: -79.1880963 }; // The coordinate to compare against
 
-const CheckDistanceButton: React.FC = () => {
+interface CheckDistanceButtonProps {
+  coords: string;
+}
+
+export default function CheckDistanceButton({
+  coords,
+}: CheckDistanceButtonProps) {
+  const imgCoords = JSON.parse(coords);
   const [successOpen, setSuccessOpen] = useState(false);
   const [failureOpen, setFailureOpen] = useState(false);
-  const { markerPosition, addAttempt, maxAttempts, attempts, isSuccessful } = useMapContext();
+  const { markerPosition, addAttempt, maxAttempts, attempts, isSuccessful } =
+    useMapContext();
 
   const calculateDistance = (
     lat1: number,
@@ -38,8 +46,8 @@ const CheckDistanceButton: React.FC = () => {
     const distance = calculateDistance(
       markerPosition.lat,
       markerPosition.lng,
-      targetLocation.lat,
-      targetLocation.lng
+      imgCoords.lat,
+      imgCoords.lng
     );
 
     addAttempt(distance);
@@ -63,6 +71,4 @@ const CheckDistanceButton: React.FC = () => {
       </Button>
     </div>
   );
-};
-
-export default CheckDistanceButton;
+}

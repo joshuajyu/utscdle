@@ -8,7 +8,7 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 import { SignInForm } from "@/components/auth/signInForm";
-import { signInGoogleWrapper } from "@/lib/actions/auth";
+import { signInGoogleWrapper } from "@/lib/actions/auth/auth";
 import { SignInProps } from "@/components/auth/props";
 
 export function SignInContent({ setOpen, setContent }: SignInProps) {
