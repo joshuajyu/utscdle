@@ -2,10 +2,10 @@
 
 import { GoogleMap, Marker } from "@react-google-maps/api";
 import { useRef, useState } from "react";
-
+import { useMapSIContext } from "../hooks/mapSIProvider";
 
 const MapComponentSI = () => {
-	const [markerPosition, setMarkerPosition] = useState(null);
+	const {markerPosition, setMarkerPosition} = useMapSIContext();
 	const mapCenter = useRef({ lat: 43.78427807639849, lng: -79.18671957505939 });
 	const zoom = 18;
 

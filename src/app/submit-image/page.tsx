@@ -1,7 +1,7 @@
 import { MapPin } from "lucide-react";
 import { Input } from "../../components/ui/input";
 import { Label } from "../../components/ui/label";
-import { MapProvider } from "../../hooks/mapProvider";
+import { MapSIProvider } from "../../hooks/mapSIProvider";
 import { MapComponentSI } from "../../components/mapSI";
 import { SubmitImageButton } from "../../components/submitImageButton";
 
@@ -23,16 +23,20 @@ export default function DailyChallenge() {
 				<Input id="picture" type="file" />
 			</div>
 			<div className="flex flex-col w-full items-center p-4 bg-[#424242] rounded-xl mb-4 mr-6 mt-5">
-				<MapProvider>
+				<MapSIProvider>
 					<div className="mb-5">
 						Select the image's location on the map
 					</div>
 					<div className="w-full sm:w-[500px] h-[500px] mt-4 sm:mt-0">
 						<MapComponentSI />
 					</div>
-				</MapProvider>
+					<div className="">
+						<SubmitImageButton />
+					</div>
+					
+				</MapSIProvider>
 			</div>
-			<SubmitImageButton />
+			
 
 		</div>
 	);
