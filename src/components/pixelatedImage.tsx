@@ -163,7 +163,7 @@ const PixelatedImage: React.FC<PixelatedImageProps> = ({
             height={imageHeight}
             priority={true}
             unoptimized
-            className="max-h-[50vh] sm:max-h-[65vh] object-contain w-full rounded-md border-4 border-white"
+            className="max-h-[50vh] sm:max-h-[55vh] object-contain w-full rounded-md border-4 border-white"
           />
           {zoomable && (
             <div

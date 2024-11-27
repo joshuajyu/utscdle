@@ -31,7 +31,12 @@ const GameOverlay: React.FC<GameOverlayProps> = ({ children }) => {
       <div className="relative h-full w-full">
         {children}
         <div className="absolute inset-0 bg-zinc-800 flex items-start justify-center z-10">
-          <Button onClick={handleStartGame}>Start Daily Challenge</Button>
+          <Button
+            className="transition hover:scale-105"
+            onClick={handleStartGame}
+          >
+            Start Daily Challenge
+          </Button>
         </div>
       </div>
     );

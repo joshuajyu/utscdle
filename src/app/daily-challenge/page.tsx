@@ -13,7 +13,7 @@ export default function DailyChallenge() {
   const currentDate = () => new Date().toDateString();
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center w-full">
+    <div className="min-h-screen flex flex-col items-center justify-start w-full">
       <TimerProvider>
         <HowToPlayButton />
         <div className="pt-4 pb-4 text-center">

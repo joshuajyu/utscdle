@@ -95,8 +95,13 @@ const CheckDistanceButton: React.FC = () => {
       <SuccessPopup open={successOpen} onOpenChange={setSuccessOpen} />
       <FailurePopup open={failureOpen} onOpenChange={setFailureOpen} />
       <Button
+        className="transition hover:scale-105"
         onClick={handleCheckDistance}
-        disabled={attempts.length >= maxAttempts || isSuccessful || localStorage.getItem("finalScore") !== null}
+        disabled={
+          attempts.length >= maxAttempts ||
+          isSuccessful ||
+          localStorage.getItem("finalScore") !== null
+        }
       >
         Check Distance
       </Button>

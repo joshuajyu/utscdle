@@ -18,7 +18,7 @@ export default function DailyChallenge() {
           <MapPin className="h-10 w-10 text-white sm:mr-4 mr-0" />
           <h1 className="text-3xl font-bold text-white sm:text-4xl">UTSCdle</h1>
         </div>
-        <p className="mt-3 text-lg text-gray-300">
+        <p className="mt-3 text-xl font-bold text-gray-300">
           Race
         </p>
       </div>
