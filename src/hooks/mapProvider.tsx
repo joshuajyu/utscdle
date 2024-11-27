@@ -28,18 +28,52 @@ export function MapProvider({ children }: { children: ReactNode }) {
     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY as string,
   });
 
+  // Initialize state variables with date check
   const [markerPosition, setMarkerPosition] = useState<MarkerPosition>(() => {
     if (typeof window !== "undefined") {
-      const storedMarkerPosition = localStorage.getItem("markerPosition");
-      return storedMarkerPosition ? JSON.parse(storedMarkerPosition) : null;
+      const storedDate = localStorage.getItem("dataDate");
+      const currentDate = new Date().toISOString().slice(0, 10); // Use YYYY-MM-DD format
+
+      if (storedDate === currentDate) {
+        // Dates match, load data from localStorage
+        const storedMarkerPosition = localStorage.getItem("markerPosition");
+        return storedMarkerPosition ? JSON.parse(storedMarkerPosition) : null;
+      } else {
+        // Dates don't match, reset data
+        localStorage.setItem("dataDate", currentDate);
+
+        // Remove all the specified localStorage items
+        const keysToRemove = [
+          "markerPosition",
+          "attempts",
+          "startTime",
+          "isActive",
+          "gameStarted",
+          "finalTime",
+          "finalScore",
+        ];
+
+        keysToRemove.forEach((key) => localStorage.removeItem(key));
+
+        return null; // Reset markerPosition
+      }
     }
     return null;
   });
 
   const [attempts, setAttempts] = useState<Attempt[]>(() => {
     if (typeof window !== "undefined") {
-      const storedAttempts = localStorage.getItem("attempts");
-      return storedAttempts ? JSON.parse(storedAttempts) : [];
+      const storedDate = localStorage.getItem("dataDate");
+      const currentDate = new Date().toISOString().slice(0, 10); // Use YYYY-MM-DD format
+
+      if (storedDate === currentDate) {
+        // Dates match, load data from localStorage
+        const storedAttempts = localStorage.getItem("attempts");
+        return storedAttempts ? JSON.parse(storedAttempts) : [];
+      } else {
+        // Dates don't match, reset data
+        return []; // Reset attempts
+      }
     }
     return [];
   });
@@ -68,7 +102,7 @@ export function MapProvider({ children }: { children: ReactNode }) {
     }
   }, [attempts]);
 
-  // Sync state across tabs
+  // Sync state across tabs and handle date changes
   useEffect(() => {
     const handleStorageChange = (event: StorageEvent) => {
       if (event.key === "markerPosition") {
@@ -76,6 +110,40 @@ export function MapProvider({ children }: { children: ReactNode }) {
       }
       if (event.key === "attempts") {
         setAttempts(event.newValue ? JSON.parse(event.newValue) : []);
+      }
+      if (event.key === "dataDate") {
+        const storedDate = event.newValue;
+        const currentDate = new Date().toISOString().slice(0, 10); // Use YYYY-MM-DD format
+
+        if (storedDate !== currentDate) {
+          // Dates don't match, reset data
+          localStorage.setItem("dataDate", currentDate);
+
+          // Remove all the specified localStorage items
+          const keysToRemove = [
+            "markerPosition",
+            "attempts",
+            "startTime",
+            "isActive",
+            "gameStarted",
+            "finalTime",
+            "finalScore",
+          ];
+
+          keysToRemove.forEach((key) => localStorage.removeItem(key));
+
+          // Reset state variables
+          setMarkerPosition(null);
+          setAttempts([]);
+
+          // Reset other state variables if they exist
+          // Example:
+          // setStartTime(null);
+          // setIsActive(false);
+          // setGameStarted(false);
+          // setFinalTime(null);
+          // setFinalScore(null);
+        }
       }
     };
 
@@ -98,6 +166,7 @@ export function MapProvider({ children }: { children: ReactNode }) {
     }
   };
 
+  // Remove dataLoaded and adjust loading condition
   if (!isMounted || !scriptLoaded) {
     return <p>Loading...</p>;
   }
