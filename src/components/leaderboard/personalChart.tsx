@@ -60,7 +60,7 @@ export function PersonalChart() {
               tickLine={false}
               axisLine={false}
               tickMargin={8}
-              tickFormatter={(value) => value.slice(0, 8)}
+            //   tickFormatter={(value) => value.slice(0, 8)}
             />
             <ChartTooltip
               cursor={true}
