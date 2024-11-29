@@ -18,10 +18,6 @@ export default function DailyChallenge() {
 					Submit an image!
 				</p>
 			</div>
-			<div className="grid w-full max-w-sm items-center gap-1.5">
-				<Label htmlFor="picture">Select image from device</Label>
-				<Input id="picture" type="file" />
-			</div>
 			<div className="flex flex-col w-full items-center p-4 bg-[#424242] rounded-xl mb-4 mr-6 mt-5">
 				<MapSIProvider>
 					<div className="mb-5">
@@ -30,7 +26,7 @@ export default function DailyChallenge() {
 					<div className="w-full sm:w-[500px] h-[500px] mt-4 sm:mt-0">
 						<MapComponentSI />
 					</div>
-					<div className="">
+					<div className="flex flex-col items-center">
 						<SubmitImageButton />
 					</div>
 					
