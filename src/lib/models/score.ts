@@ -17,6 +17,18 @@ const scoreSchema = new Schema({
     type: Number,
     required: true,
   },
+  totalTime: {
+    type: Number,
+    required: true,
+  },
+  // Attempts is an object with the following structure:
+  // {position: {lat: 43.78417163365461, lng: -79.18661765111683}, distance: 251.2680620642451, attempt: 1}
+  attempts: {
+    type: Array,
+    required: true,
+  },
+
+
 });
 
 // Create the Score model

@@ -7,6 +7,7 @@ import {
   LabelList,
   XAxis,
   YAxis,
+  Tooltip,
 } from "recharts";
 
 import {
@@ -22,18 +23,10 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
-const chartData = [
-  { username: "PixelHunter", score: 980 },
-  { username: "CodeMaster", score: 950 },
-  { username: "MapExplorer", score: 940 },
-  { username: "GeoGuru", score: 930 },
-  { username: "GuessWizard", score: 920 },
-  { username: "TrailBlazer", score: 910 },
-  { username: "Zoomer123", score: 900 },
-  { username: "CampusSniper", score: 890 },
-  { username: "SpotSeeker", score: 880 },
-  { username: "LocationLegend", score: 870 },
-];
+
+interface GlobalChartProps {
+  chartData: { username: string; score: number }[];
+}
 
 const chartConfig = {
   desktop: {
@@ -49,7 +42,7 @@ const chartConfig = {
   },
 } satisfies ChartConfig;
 
-export function GlobalChart() {
+export function GlobalChart({ chartData }: GlobalChartProps) {
   return (
     <Card>
       <CardHeader>
@@ -57,48 +50,55 @@ export function GlobalChart() {
         <CardDescription>Top 10 ranking for selected date</CardDescription>
       </CardHeader>
       <CardContent>
-        <ChartContainer config={chartConfig}>
-          <BarChart
-            accessibilityLayer
-            data={chartData}
-            layout="vertical"
-            margin={{
-              right: 16,
-            }}
-          >
-            <CartesianGrid horizontal={false} />
-            <YAxis
-              dataKey="username"
-              type="category"
-              tickLine={false}
-              tickMargin={10}
-              axisLine={false}
-              tickFormatter={(value) => value.slice(0, 3)}
-              hide
-            />
-            <XAxis dataKey="score" type="number" hide />
-            <ChartTooltip
-              cursor={false}
-              content={<ChartTooltipContent indicator="line" />}
-            />
-            <Bar dataKey="score" layout="vertical" fill="#e21d48" radius={5}>
-              <LabelList
+        {chartData.length === 0 ? (
+          <p>No data available for this date.</p>
+        ) : (
+          <ChartContainer config={chartConfig}>
+            <BarChart
+              data={chartData}
+              layout="vertical"
+              width={500} // Adjust width as needed
+              height={400} // Adjust height as needed
+              margin={{
+                top: 20,
+                right: 40,
+                left: 20,
+                bottom: 20,
+              }}
+            >
+              <CartesianGrid horizontal={false} />
+              <YAxis
                 dataKey="username"
-                position="insideLeft"
-                offset={8}
-                className="fill-[--color-label]"
-                fontSize={16}
+                type="category"
+                tickLine={false}
+                tickMargin={10}
+                axisLine={false}
+                hide
               />
-              <LabelList
-                dataKey="score"
-                position="right"
-                offset={8}
-                className="fill-foreground"
-                fontSize={16}
+              <XAxis type="number" hide />
+              <ChartTooltip
+                cursor={false}
+                content={<ChartTooltipContent indicator="line" />}
               />
-            </Bar>
-          </BarChart>
-        </ChartContainer>
+              <Bar dataKey="score" fill="#e21d48" radius={5}>
+                <LabelList
+                  dataKey="username"
+                  position="insideLeft"
+                  offset={8}
+                  className="fill-[--color-label]"
+                  fontSize={14} // Adjust font size as needed
+                />
+                <LabelList
+                  dataKey="score"
+                  position="right"
+                  offset={8}
+                  className="fill-foreground"
+                  fontSize={14} // Adjust font size as needed
+                />
+              </Bar>
+            </BarChart>
+          </ChartContainer>
+        )}
       </CardContent>
     </Card>
   );

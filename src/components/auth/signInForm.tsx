@@ -35,11 +35,17 @@ export function SignInForm({ setOpen, setContent }: SignInProps) {
   function onSubmit(values: z.infer<typeof signInSchema>) {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
+    console.log("Submit completed");
     signInCredentialsWrapper(values)
       .then(() => {
-        setOpen(false); // Close the dialog
+        localStorage.clear();
+        console.log("Sign in successful, localStorage cleared.");
+        setOpen(false);
+        window.location.assign("/daily-challenge");
+
       })
       .catch((e) => {
+        // console.error("Sign in failed:", e);
         if (errorNoUserRef.current) {
           errorNoUserRef.current.innerText =
             "We couldn't find an account that matches those credentials.";

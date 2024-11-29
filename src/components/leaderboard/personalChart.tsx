@@ -1,7 +1,6 @@
 "use client";
 
-import { CartesianGrid, LabelList, Line, LineChart, XAxis } from "recharts";
-
+import { LineChart, Line, XAxis, CartesianGrid, Tooltip, LabelList } from "recharts";
 import {
   Card,
   CardContent,
@@ -15,15 +14,11 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
-const chartData = [
-  { day: "Monday", score: 850 },
-  { day: "Tuesday", score: 920 },
-  { day: "Wednesday", score: 780 },
-  { day: "Thursday", score: 950 },
-  { day: "Friday", score: 870 },
-  { day: "Saturday", score: 730 },
-  { day: "Sunday", score: 890 },
-];
+
+interface PersonalChartProps {
+  chartData: { day: string; score: number }[];
+  selectedRange: string;
+}
 
 const chartConfig = {
   desktop: {
@@ -36,57 +31,76 @@ const chartConfig = {
   },
 } satisfies ChartConfig;
 
-export function PersonalChart() {
+export function PersonalChart({ chartData, selectedRange }: PersonalChartProps) {
+  // Determine chart title and description based on selected range
+  let chartTitle = "";
+  let chartDescription = "";
+
+  if (selectedRange === "day") {
+    chartTitle = "Today's Score";
+    chartDescription = "Your score for today";
+  } else if (selectedRange === "week") {
+    chartTitle = "Last Week";
+    chartDescription = "Your scores over the past week";
+  } else if (selectedRange === "month") {
+    chartTitle = "Last Month";
+    chartDescription = "Your scores over the past month";
+  }
+
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Last Week</CardTitle>
-        <CardDescription>Your scores of the past week</CardDescription>
+        <CardTitle>{chartTitle}</CardTitle>
+        <CardDescription>{chartDescription}</CardDescription>
       </CardHeader>
       <CardContent>
-        <ChartContainer config={chartConfig}>
-          <LineChart
-            accessibilityLayer
-            data={chartData}
-            margin={{
-              top: 20,
-              left: 12,
-              right: 12,
-            }}
-          >
-            <CartesianGrid vertical={false} />
-            <XAxis
-              dataKey="day"
-              tickLine={false}
-              axisLine={false}
-              tickMargin={8}
-            //   tickFormatter={(value) => value.slice(0, 8)}
-            />
-            <ChartTooltip
-              cursor={true}
-              content={<ChartTooltipContent indicator="line" />}
-            />
-            <Line
-              dataKey="score"
-              type="linear"
-              stroke="#e21d48"
-              strokeWidth={2}
-              dot={{
-                fill: "#e21d48",
-              }}
-              activeDot={{
-                r: 6,
+        {chartData.length === 0 ? (
+          <p>No data available for this time period.</p>
+        ) : (
+          <ChartContainer config={chartConfig}>
+            <LineChart
+              data={chartData}
+              margin={{
+                top: 20,
+                left: 12,
+                right: 12,
               }}
             >
-              <LabelList
-                position="top"
-                offset={12}
-                className="fill-foreground"
-                fontSize={12}
+              <CartesianGrid vertical={false} />
+              <XAxis
+                dataKey="day"
+                tickLine={false}
+                axisLine={false}
+                tickMargin={8}
+                // Optionally format ticks if needed
+                // tickFormatter={(value) => value.slice(0, 8)}
               />
-            </Line>
-          </LineChart>
-        </ChartContainer>
+              <Tooltip
+                cursor={true}
+                content={<ChartTooltipContent indicator="line" />}
+              />
+              <Line
+                dataKey="score"
+                type="linear"
+                stroke="#e21d48"
+                strokeWidth={2}
+                dot={{
+                  fill: "#e21d48",
+                }}
+                activeDot={{
+                  r: 6,
+                }}
+              >
+                <LabelList
+                  position="top"
+                  offset={12}
+                  className="fill-foreground"
+                  fontSize={12}
+                />
+              </Line>
+            </LineChart>
+          </ChartContainer>
+        )}
       </CardContent>
     </Card>
   );

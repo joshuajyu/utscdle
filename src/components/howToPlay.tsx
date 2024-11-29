@@ -39,7 +39,12 @@ const HowToPlay = ({ open, setOpen }: HowToPlayProps) => {
           find the location, and the you must guess within <strong>20m</strong>{" "}
           of the location to be correct.
         </AlertDialogDescription>
-        <AlertDialogDescription><strong>Good Luck!</strong></AlertDialogDescription>
+        <AlertDialogDescription>
+          <strong>Note:</strong> If you have already completed today&apos;s challenge, only the first score will be recorded.
+        </AlertDialogDescription>
+        <AlertDialogDescription>
+          <strong>Good Luck!</strong>
+        </AlertDialogDescription>
         <AlertDialogFooter>
           <AlertDialogAction onClick={() => setOpen(false)}>
             Let&apos;s Play

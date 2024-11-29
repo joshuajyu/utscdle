@@ -32,7 +32,7 @@ export function MapProvider({ children }: { children: ReactNode }) {
   const [markerPosition, setMarkerPosition] = useState<MarkerPosition>(() => {
     if (typeof window !== "undefined") {
       const storedDate = localStorage.getItem("dataDate");
-      const currentDate = new Date().toISOString().slice(0, 10); // Use YYYY-MM-DD format
+      const currentDate = new Date().toLocaleDateString(); // Use MM/DD/YYYY format
 
       if (storedDate === currentDate) {
         // Dates match, load data from localStorage
@@ -64,7 +64,7 @@ export function MapProvider({ children }: { children: ReactNode }) {
   const [attempts, setAttempts] = useState<Attempt[]>(() => {
     if (typeof window !== "undefined") {
       const storedDate = localStorage.getItem("dataDate");
-      const currentDate = new Date().toISOString().slice(0, 10); // Use YYYY-MM-DD format
+      const currentDate = new Date().toLocaleDateString(); // Use MM/DD/YYYY format
 
       if (storedDate === currentDate) {
         // Dates match, load data from localStorage
@@ -113,7 +113,7 @@ export function MapProvider({ children }: { children: ReactNode }) {
       }
       if (event.key === "dataDate") {
         const storedDate = event.newValue;
-        const currentDate = new Date().toISOString().slice(0, 10); // Use YYYY-MM-DD format
+        const currentDate = new Date().toLocaleDateString(); // Use MM/DD/YYYY format
 
         if (storedDate !== currentDate) {
           // Dates don't match, reset data

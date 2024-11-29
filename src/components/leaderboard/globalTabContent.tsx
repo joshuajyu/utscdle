@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -9,7 +9,6 @@ import { Calendar } from "@/components/ui/calendar";
 import {
   Card,
   CardContent,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
@@ -19,8 +18,53 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { GlobalChart } from "./globalChart";
+
 export function GlobalTabContent() {
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined);
+  const [topTenData, setTopTenData] = useState([]);
+  const [userScore, setUserScore] = useState<number | null>(null);
+  const [userRank, setUserRank] = useState<number | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (selectedDate) {
+      const fetchData = async () => {
+        setLoading(true);
+        setError(null);
+
+        try {
+          const dateString = format(selectedDate, "yyyy-MM-dd");
+          const response = await fetch(`/api/scores/getTopTen/${dateString}`, {
+            credentials: "include", // Include cookies if needed for auth
+          });
+          if (!response.ok) {
+            throw new Error(`Error: ${response.status} ${response.statusText}`);
+          }
+          const data = await response.json();
+          if (data.success) {
+            console.log("Fetched top ten data:", data.data);
+            setTopTenData(data.data.topTen);
+            setUserScore(data.data.userScore);
+            setUserRank(data.data.userRank);
+          } else {
+            throw new Error(data.message || "Failed to fetch data");
+          }
+        } catch (err) {
+          console.error("Failed to fetch data:", err);
+          if (err instanceof Error) {
+            setError(err.message);
+          } else {
+            setError("An unknown error occurred");
+          }
+        } finally {
+          setLoading(false);
+        }
+      };
+
+      fetchData();
+    }
+  }, [selectedDate]);
 
   return (
     <Card>
@@ -57,17 +101,32 @@ export function GlobalTabContent() {
         </Popover>
       </CardHeader>
       <CardContent className="space-y-2">
-        <div className="flex flex-row">
-          <div className="mr-4">
-            Your Ranking: <p className="text-xl font-bold">#10</p>
-          </div>
-          <div>
-            Your Score: <p className="text-xl font-bold">500</p>
-          </div>
-        </div>
-        <GlobalChart />
+        {loading ? (
+          <p>Loading data...</p>
+        ) : error ? (
+          <p>Error loading data: {error}</p>
+        ) : selectedDate ? (
+          <>
+            <div className="flex flex-row">
+              <div className="mr-4">
+                Your Ranking:{" "}
+                <p className="text-xl font-bold">
+                  {userRank !== null ? `#${userRank}` : "N/A"}
+                </p>
+              </div>
+              <div>
+                Your Score:{" "}
+                <p className="text-xl font-bold">
+                  {userScore !== null ? userScore : "N/A"}
+                </p>
+              </div>
+            </div>
+            <GlobalChart chartData={topTenData} />
+          </>
+        ) : (
+          <p>Please select a date to view the leaderboard.</p>
+        )}
       </CardContent>
-      <CardFooter>{/* Add footer content if needed */}</CardFooter>
     </Card>
   );
 }

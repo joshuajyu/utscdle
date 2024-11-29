@@ -1,11 +1,20 @@
 // configuration for Auth.js
-import NextAuth, { CredentialsSignin, User } from "next-auth";
+import NextAuth, { CredentialsSignin, User, DefaultSession } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import Google from "next-auth/providers/google";
 import bcrypt from "bcryptjs";
 import { MongoDBAdapter } from "@auth/mongodb-adapter";
 import { getUserFromDb } from "@/utils/getUser";
 import client from "@/utils/db";
+
+declare module "next-auth" {
+  interface Session {
+    user: {
+      /** The user's id. */
+      id: string;
+    } & DefaultSession["user"];
+  }
+}
 
 class InvalidLoginError extends CredentialsSignin {
   code = "Invalid credentials!";
@@ -45,7 +54,10 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         } as User;
       },
     }),
-    Google,
+    Google({
+      clientId: process.env.AUTH_GOOGLE_ID,
+      clientSecret: process.env.AUTH_GOOGLE_SECRET,
+    }),
   ],
   events: {
     async signIn(message) {
@@ -55,5 +67,19 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   session: {
     strategy: "jwt",
     maxAge: 2592000,
+  },
+  callbacks: {
+    jwt({ token, user }) {
+      if (user) {
+        // User is available during sign-in
+        token.id = user.id;
+      }
+      return token;
+    },
+    session({ session, token}) {
+      session.user.id = token.sub as string;
+
+      return session;
+    },
   },
 });

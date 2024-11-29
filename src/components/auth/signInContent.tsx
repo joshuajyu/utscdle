@@ -25,6 +25,7 @@ export function SignInContent({ setOpen, setContent }: SignInProps) {
       </div>
       <Button
         onClick={async () => {
+          localStorage.clear();
           signInGoogleWrapper();
         }}
       >

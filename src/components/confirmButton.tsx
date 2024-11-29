@@ -15,7 +15,6 @@ const CheckDistanceButton: React.FC = () => {
   const { markerPosition, addAttempt, maxAttempts, attempts, isSuccessful } =
     useMapContext();
   const { stopTimer, timeElapsed } = useContext(TimerContext);
-
   const calculateDistance = (
     lat1: number,
     lng1: number,
@@ -63,6 +62,33 @@ const CheckDistanceButton: React.FC = () => {
     return Math.min(totalScore, 1000);
   };
 
+  const submitScore = async (
+    date: Date,
+    score: number,
+    totalTime: number,
+    attempts: Array<Object>
+  ) => {
+    try {
+      const response = await fetch("/api/scores/updateScore", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ date, score, totalTime, attempts }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        console.error("Error submitting score:", data.message);
+      } else {
+        console.log("Score submitted successfully:", data);
+      }
+    } catch (error) {
+      console.error("Error submitting score:", error);
+    }
+  };
+
   const handleCheckDistance = () => {
     if (!markerPosition || attempts.length >= maxAttempts) return;
 
@@ -81,12 +107,22 @@ const CheckDistanceButton: React.FC = () => {
       localStorage.setItem("finalTime", timeElapsed.toString());
       const score = calculateScore(timeElapsed, attempts.length + 1);
       localStorage.setItem("finalScore", score.toString());
+      const challengeDateString = localStorage.getItem("dataDate");
+      const challengeDate = challengeDateString
+        ? new Date(challengeDateString)
+        : new Date();
+      submitScore(challengeDate, score, timeElapsed, attempts);
     } else if (attempts.length === maxAttempts - 1) {
       setTimeout(() => setFailureOpen(true), 500);
       stopTimer();
       localStorage.setItem("finalTime", timeElapsed.toString());
       const score = 0;
       localStorage.setItem("finalScore", score.toString());
+      const challengeDateString = localStorage.getItem("dataDate");
+      const challengeDate = challengeDateString
+        ? new Date(challengeDateString)
+        : new Date();
+      submitScore(challengeDate, score, timeElapsed, attempts);
     }
   };
 
