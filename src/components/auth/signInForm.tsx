@@ -17,7 +17,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { signInSchema } from "@/lib/models/zod";
-import { signInCredentialsWrapper } from "@/lib/actions/auth";
+import { signInCredentialsWrapper } from "@/lib/actions/auth/auth";
 import { SignInProps } from "@/components/auth/props";
 import { redirect } from "next/navigation";
 

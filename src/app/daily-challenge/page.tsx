@@ -3,14 +3,16 @@ import PixelatedImage from "@/components/pixelatedImage";
 import { MapProvider } from "@/hooks/mapProvider";
 import { TimerProvider } from "@/hooks/timerContext";
 import { MapComponent } from "@/components/map";
+import { getDailyImage } from "@/lib/actions/images/getDailyImage";
 import AttemptTable from "@/components/attemptTable";
 import CheckDistanceButton from "@/components/confirmButton";
 import HowToPlayButton from "@/components/howToPlayButton";
 import Timer from "@/components/timer";
 import GameOverlay from "@/components/gameOverlay";
 
-export default function DailyChallenge() {
+export default async function DailyChallenge() {
   const currentDate = () => new Date().toDateString();
+  const image = await getDailyImage();
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-start w-full">

@@ -15,7 +15,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { signUpSchema } from "@/lib/models/zod";
-import { signUp } from "@/lib/actions/signUp";
+import { signUp } from "@/lib/actions/auth/signUp";
 import { SignUpProps } from "@/components/auth/props";
 
 export function SignUpForm({ setOpen }: SignUpProps) {
