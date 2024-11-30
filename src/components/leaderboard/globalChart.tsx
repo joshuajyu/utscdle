@@ -7,7 +7,6 @@ import {
   LabelList,
   XAxis,
   YAxis,
-  Tooltip,
 } from "recharts";
 
 import {
@@ -71,9 +70,8 @@ export function GlobalChart({ chartData }: GlobalChartProps) {
                 dataKey="username"
                 type="category"
                 tickLine={false}
-                tickMargin={10}
+                tickMargin={2}
                 axisLine={false}
-                hide
               />
               <XAxis type="number" hide />
               <ChartTooltip
@@ -81,13 +79,13 @@ export function GlobalChart({ chartData }: GlobalChartProps) {
                 content={<ChartTooltipContent indicator="line" />}
               />
               <Bar dataKey="score" fill="#e21d48" radius={5}>
-                <LabelList
+                {/* <LabelList
                   dataKey="username"
                   position="insideLeft"
                   offset={8}
                   className="fill-[--color-label]"
                   fontSize={14} // Adjust font size as needed
-                />
+                /> */}
                 <LabelList
                   dataKey="score"
                   position="right"

@@ -19,7 +19,7 @@ const MapComponent = ({ coords }: MapComponentProps) => {
   const mapCenter = useRef({ lat: 43.78427807639849, lng: -79.18671957505939 });
   const zoom = 18;
   const placeMarker = (event: google.maps.MapMouseEvent) => {
-    if (event.latLng) {
+    if ((attempts.length < maxAttempts && !isSuccessful) && event.latLng) {
       setMarkerPosition({ lat: event.latLng.lat(), lng: event.latLng.lng() });
     }
   };
@@ -92,7 +92,7 @@ const MapComponent = ({ coords }: MapComponentProps) => {
             />
             <Circle
               center={displayCenter}
-              radius={20} // 20 meters radius
+              radius={10} // 10 meters radius
               options={{
                 fillColor: "#00FF00",
                 fillOpacity: 0.35,
