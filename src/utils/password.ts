@@ -1,6 +1,6 @@
 import bcrypt from "bcryptjs";
 
-export async function saltAndHashPassword(password: any): Promise<string> {
+export async function saltAndHashPassword(password: string): Promise<string> {
   if (!password) {
     throw new Error("Password cannot be empty");
   }
