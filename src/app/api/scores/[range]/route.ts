@@ -2,14 +2,20 @@ import { NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
 import { getScores } from "@/lib/actions/scores/getScores";
 
-export async function GET(request: Request, { params }: { params: { range: string } }) {
+export async function GET(
+  request: Request,
+  context: { params: Promise<{ range: string }> }
+) {
   try {
-    const { range } = await params;
+    const { range } = await context.params;
 
     // Ensure the range parameter is valid
     if (!["day", "week", "month"].includes(range)) {
       return NextResponse.json(
-        { success: false, message: "Invalid range. Must be 'day', 'week', or 'month'." },
+        {
+          success: false,
+          message: "Invalid range. Must be 'day', 'week', or 'month'.",
+        },
         { status: 400 }
       );
     }
@@ -29,7 +35,10 @@ export async function GET(request: Request, { params }: { params: { range: strin
     const chartData = await getScores(userId, range);
 
     if (chartData) {
-      return NextResponse.json({ success: true, data: chartData }, { status: 200 });
+      return NextResponse.json(
+        { success: true, data: chartData },
+        { status: 200 }
+      );
     } else {
       return NextResponse.json(
         { success: false, message: "No scores found for the specified range." },
@@ -39,7 +48,10 @@ export async function GET(request: Request, { params }: { params: { range: strin
   } catch (error) {
     console.error("Error fetching scores:", error);
     return NextResponse.json(
-      { success: false, message: "An error occurred while fetching the scores." },
+      {
+        success: false,
+        message: "An error occurred while fetching the scores.",
+      },
       { status: 500 }
     );
   }
