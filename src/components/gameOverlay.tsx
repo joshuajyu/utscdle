@@ -2,14 +2,14 @@
 
 import { useEffect, useState, useContext } from "react";
 import { Button } from "./ui/button";
-import TimerContext from "@/hooks/timerContext";
+import {useTimer} from "@/hooks/timerContext";
 interface GameOverlayProps {
   children: React.ReactNode;
 }
 
 const GameOverlay: React.FC<GameOverlayProps> = ({ children }) => {
   const [gameStarted, setGameStarted] = useState(false);
-  const { startTimer } = useContext(TimerContext);
+  const { startTimer } = useTimer();
 
   useEffect(() => {
     const storedGameStarted = localStorage.getItem("gameStarted");

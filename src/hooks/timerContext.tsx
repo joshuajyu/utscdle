@@ -68,4 +68,11 @@ export const TimerProvider: React.FC<{ children: React.ReactNode }> = ({
   );
 };
 
-export default TimerContext;
+export const useTimer = () => {
+  const context = React.useContext(TimerContext);
+  if (context === undefined) {
+    throw new Error("useTimer must be used within a TimerProvider");
+  }
+  return context;
+}
+// export default TimerContext;

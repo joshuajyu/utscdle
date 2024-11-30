@@ -1,10 +1,10 @@
 "use client";
 
 import { useContext, useState, useEffect } from "react";
-import TimerContext from "@/hooks/timerContext";
+import {useTimer} from "@/hooks/timerContext";
 
 export default function Timer() {
-  const { timeElapsed } = useContext(TimerContext);
+  const { timeElapsed } = useTimer();
   const [finalTime, setFinalTime] = useState<string | null>(null);
 
   useEffect(() => {

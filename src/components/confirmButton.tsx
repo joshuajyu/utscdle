@@ -1,7 +1,7 @@
 "use client";
 
 import { useMapContext } from "@/hooks/mapProvider";
-import TimerContext from "@/hooks/timerContext";
+import { useTimer } from "@/hooks/timerContext";
 import { Button } from "./ui/button";
 import { useContext, useState } from "react";
 import SuccessPopup from "./successPopup";
@@ -19,11 +19,7 @@ export default function CheckDistanceButton({
   const [failureOpen, setFailureOpen] = useState(false);
   const { markerPosition, addAttempt, maxAttempts, attempts, isSuccessful } =
     useMapContext();
-  const timerContext = useContext(TimerContext);
-  if (!timerContext) {
-    throw new Error("TimerContext must be used within a TimerContext.Provider");
-  }
-  const { stopTimer, timeElapsed } = timerContext;
+  const { stopTimer, timeElapsed } = useTimer();
   const calculateDistance = (
     lat1: number,
     lng1: number,
