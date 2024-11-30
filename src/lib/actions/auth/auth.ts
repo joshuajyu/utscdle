@@ -1,6 +1,6 @@
 // wrap into a server component
 "use server";
-import { signIn, signOut } from "@/lib/auth";
+import { signIn } from "@/lib/auth";
 import { z } from "zod";
 import { signInSchema } from "@/lib/models/zod";
 

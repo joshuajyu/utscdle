@@ -3,7 +3,13 @@ import { connectDB } from "@/utils/mongoosedb";
 import User from "@/lib/models/user";
 import { saltAndHashPassword } from "@/utils/password";
 
-export const signUp = async (values: any) => {
+interface signUpSchema {
+  email: string;
+  password: string;
+  name: string;
+}
+
+export const signUp = async (values: signUpSchema) => {
   const { email, password, name } = values;
   try {
     await connectDB();
@@ -19,7 +25,7 @@ export const signUp = async (values: any) => {
         email,
         password: hashedPassword
     });
-    const savedUser = await user.save();
+    await user.save();
   } catch (e) {
     console.log(e);
   }

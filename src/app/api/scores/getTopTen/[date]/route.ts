@@ -2,7 +2,6 @@ import { NextResponse } from "next/server";
 import mongoose from "mongoose";
 import { connectDB } from "@/utils/mongoosedb";
 import Score from "@/lib/models/score";
-import User from "@/lib/models/user";
 import { auth } from "@/lib/auth";
 
 export async function GET(

@@ -71,7 +71,7 @@ export default function CheckDistanceButton({
     date: Date,
     score: number,
     totalTime: number,
-    attempts: Array<Object>
+    attempts: Array<object>
   ) => {
     try {
       const response = await fetch("/api/scores/updateScore", {

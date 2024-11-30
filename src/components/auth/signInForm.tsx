@@ -19,7 +19,6 @@ import { Input } from "@/components/ui/input";
 import { signInSchema } from "@/lib/models/zod";
 import { signInCredentialsWrapper } from "@/lib/actions/auth/auth";
 import { SignInProps } from "@/components/auth/props";
-import { redirect } from "next/navigation";
 
 export function SignInForm({ setOpen, setContent }: SignInProps) {
   const errorNoUserRef = useRef<HTMLParagraphElement>(null);
@@ -44,7 +43,7 @@ export function SignInForm({ setOpen, setContent }: SignInProps) {
         window.location.assign("/daily-challenge");
 
       })
-      .catch((e) => {
+      .catch(() => {
         // console.error("Sign in failed:", e);
         if (errorNoUserRef.current) {
           errorNoUserRef.current.innerText =
@@ -100,7 +99,7 @@ export function SignInForm({ setOpen, setContent }: SignInProps) {
         />
         <Button type="submit">Sign In</Button>
         <p className="text-sm text-muted-foreground text-center">
-          Don't have an account?{" "}
+          Don&apos;t have an account?{" "}
           <button
             className="underline flex-nowrap"
             onClick={() => setContent("sign-up")}
