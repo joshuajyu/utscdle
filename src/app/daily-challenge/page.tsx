@@ -47,7 +47,9 @@ export default async function DailyChallenge() {
 
               {/* Map Component */}
               <div className="w-full sm:w-1/2 mt-4 sm:mt-0">
-                <MapComponent />
+                <MapComponent
+                  coords={JSON.stringify(image.image.coordinates)}
+                />
               </div>
             </div>
             <div className="flex flex-col space-y-6 w-1/2 items-center bg-[#424242] rounded-xl shadow-2xl"></div>
