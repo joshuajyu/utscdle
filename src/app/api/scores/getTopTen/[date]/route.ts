@@ -6,12 +6,12 @@ import { auth } from "@/lib/auth";
 
 export async function GET(
   request: Request,
-  context: { params: Promise<{ date: string }> }
+  { params }: { params: Promise<{ date: string }> }
 ) {
   try {
     await connectDB();
 
-    const { date } = await context.params;
+    const date = (await params).date;
 
     // Validate and parse the date
     const selectedDate = new Date(date);
