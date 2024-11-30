@@ -19,7 +19,7 @@ const MapComponent = ({ coords }: MapComponentProps) => {
   const mapCenter = useRef({ lat: 43.78427807639849, lng: -79.18671957505939 });
   const zoom = 18;
   const placeMarker = (event: google.maps.MapMouseEvent) => {
-    if ((attempts.length < maxAttempts && !isSuccessful) && event.latLng) {
+    if (attempts.length < maxAttempts && !isSuccessful && event.latLng) {
       setMarkerPosition({ lat: event.latLng.lat(), lng: event.latLng.lng() });
     }
   };
@@ -81,7 +81,10 @@ const MapComponent = ({ coords }: MapComponentProps) => {
         onClick={placeMarker}
       >
         {markerPosition && (
-          <Marker position={currentPosition} draggable={false} />
+          <Marker
+            position={currentPosition as { lat: number; lng: number }}
+            draggable={false}
+          />
         )}
         {(attempts.length >= maxAttempts || isSuccessful) && (
           <div>
