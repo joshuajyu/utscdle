@@ -4,10 +4,10 @@ import { getScores } from "@/lib/actions/scores/getScores";
 
 export async function GET(
   request: Request,
-  context: { params: Promise<{ range: string }> }
+  { params }: { params: Promise<{ range: string }> }
 ) {
   try {
-    const { range } = await context.params;
+    const range = (await params).range;
 
     // Ensure the range parameter is valid
     if (!["day", "week", "month"].includes(range)) {
