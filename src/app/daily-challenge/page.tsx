@@ -51,7 +51,7 @@ export default async function DailyChallenge() {
               </div>
             </div>
             <div className="flex flex-col space-y-6 w-1/2 items-center bg-[#424242] rounded-xl shadow-2xl"></div>
-            <CheckDistanceButton />
+            <CheckDistanceButton coords={JSON.stringify(image.image.coordinates)}/>
             <div className="w-60 h-44">
               <AttemptTable />
             </div>
