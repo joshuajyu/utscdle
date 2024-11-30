@@ -184,7 +184,7 @@ export function MapProvider({ children }: { children: ReactNode }) {
         addAttempt,
         maxAttempts: 3,
         isSuccessful:
-          attempts.length > 0 && attempts[attempts.length - 1].distance <= 20,
+          attempts.length > 0 && attempts[attempts.length - 1].distance <= 10,
       }}
     >
       {children}

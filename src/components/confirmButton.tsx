@@ -7,8 +7,6 @@ import { useContext, useState } from "react";
 import SuccessPopup from "./successPopup";
 import FailurePopup from "./failurePopup";
 
-const targetLocation = { lat: 43.7861633, lng: -79.1880963 }; // The coordinate to compare against
-
 interface CheckDistanceButtonProps {
   coords: string;
 }
@@ -108,7 +106,7 @@ export default function CheckDistanceButton({
 
     addAttempt(distance);
 
-    if (distance <= 20) {
+    if (distance <= 10) {
       setSuccessOpen(true);
       stopTimer();
       localStorage.setItem("finalTime", timeElapsed.toString());
