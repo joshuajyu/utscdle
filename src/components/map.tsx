@@ -4,8 +4,18 @@ import { GoogleMap, Marker, Circle, Polyline } from "@react-google-maps/api";
 import { useRef } from "react";
 import { useMapContext } from "../hooks/mapProvider";
 
-const MapComponent = () => {
-  const { markerPosition, setMarkerPosition, attempts, maxAttempts, isSuccessful } = useMapContext();
+interface MapComponentProps {
+  coords: string;
+}
+
+const MapComponent = ({ coords }: MapComponentProps) => {
+  const {
+    markerPosition,
+    setMarkerPosition,
+    attempts,
+    maxAttempts,
+    isSuccessful,
+  } = useMapContext();
   const mapCenter = useRef({ lat: 43.78427807639849, lng: -79.18671957505939 });
   const zoom = 18;
   const placeMarker = (event: google.maps.MapMouseEvent) => {
@@ -36,7 +46,7 @@ const MapComponent = () => {
   };
 
   const currentPosition = markerPosition;
-  const targetLocation = { lat: 43.7861633, lng: -79.1880963 };
+  const targetLocation = JSON.parse(coords);
   let displayCenter = mapCenter.current;
 
   if (attempts.length >= maxAttempts || isSuccessful) {
@@ -50,10 +60,9 @@ const MapComponent = () => {
 
   const redLine = {
     strokeColor: "#FF0000", // Red color for the line
-    strokeOpacity: 1,       // Full opacity for the line
-    strokeWeight: 2,        // Line width
+    strokeOpacity: 1, // Full opacity for the line
+    strokeWeight: 2, // Line width
   };
-
 
   return (
     <div className="">
@@ -74,26 +83,29 @@ const MapComponent = () => {
         {markerPosition && (
           <Marker position={currentPosition} draggable={false} />
         )}
-        {((attempts.length >= maxAttempts) || isSuccessful) && (
+        {(attempts.length >= maxAttempts || isSuccessful) && (
           <div>
-            <Marker position={targetLocation} draggable={false} icon={correctMarker} />
+            <Marker
+              position={targetLocation}
+              draggable={false}
+              icon={correctMarker}
+            />
             <Circle
               center={displayCenter}
               radius={20} // 20 meters radius
               options={{
-                fillColor: "#00FF00", 
-                fillOpacity: 0.35,     
+                fillColor: "#00FF00",
+                fillOpacity: 0.35,
                 strokeColor: "#00FF00",
-                strokeOpacity: 1,    
-                strokeWeight: 2,     
+                strokeOpacity: 1,
+                strokeWeight: 2,
               }}
             />
             <Polyline
-              path={[markerPosition, targetLocation]}  // Path from last attempt marker to correct marker
+              path={[markerPosition, targetLocation]} // Path from last attempt marker to correct marker
               options={redLine}
             />
           </div>
-
         )}
       </GoogleMap>
     </div>
