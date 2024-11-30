@@ -80,7 +80,7 @@ const MapComponent = ({ coords }: MapComponentProps) => {
         options={userOptions}
         onClick={placeMarker}
       >
-        {markerPosition && (
+        {markerPosition && currentPosition && (
           <Marker position={currentPosition} draggable={false} />
         )}
         {(attempts.length >= maxAttempts || isSuccessful) && (
