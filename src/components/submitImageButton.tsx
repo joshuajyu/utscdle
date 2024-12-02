@@ -1,71 +1,94 @@
 // components/SubmitImageButton.tsx
 "use client";
 
-import { useMapSIContext } from "../hooks/mapSIProvider";
+import { MapSIProvider, useMapSIContext } from "../hooks/mapSIProvider";
 import { Button } from "./ui/button";
 import { Input } from "../components/ui/input";
 import { Label } from "../components/ui/label";
 import { useState } from "react";
+import { MapComponentSI } from "./mapSI";
 
 const SubmitImageButton: React.FC = () => {
-  const { markerPosition } = useMapSIContext(); // Get marker position from context
-  const [imageFile, setImageFile] = useState<File | null>(null);
+	const { markerPosition } = useMapSIContext(); // Get marker position from context
+	const [imageFile, setImageFile] = useState<File | null>(null);
+	const [loading, setLoading] = useState<boolean>(false);
+	const [submitted, setSubmitted] = useState(false);
 
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    let file: File | null = null;
+	const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		let file: File | null = null;
 
-    // Check if files exist and select the first one
-    if (e.target.files && e.target.files.length > 0) {
-      file = e.target.files[0];
-    }
+		// Check if files exist and select the first one
+		if (e.target.files && e.target.files.length > 0) {
+			file = e.target.files[0];
+		}
 
-    setImageFile(file);
-  };
+		setImageFile(file);
+	};
 
-  const handleSubmitImage = async (e: React.MouseEvent) => {
-    e.preventDefault();
+	const handleSubmitImage = async (e: React.MouseEvent) => {
+		e.preventDefault();
 
-    if (markerPosition && imageFile) {
-      const formData = new FormData();
-      formData.append("image", imageFile); // Append image file
-      formData.append("markerPosition", JSON.stringify(markerPosition)); // Append marker position
+		if (markerPosition && imageFile) {
+			setLoading(true);
 
-      try {
-        // Send the data to the backend API
-        const response = await fetch("/api/email", {
-          method: "POST",
-          body: formData,
-        });
+			const formData = new FormData();
+			formData.append("image", imageFile); // Append image file
+			formData.append("markerPosition", JSON.stringify(markerPosition)); // Append marker position
 
-        const result = await response.json();
-        if (result.success) {
-          console.log("Image submitted successfully.");
-        } else {
-          console.error("Error submitting image:", result.message);
-        }
-      } catch (error) {
-        console.error("Error submitting image:", error);
-      }
-    }
-  };
+			try {
+				// Send the data to the backend API
+				const response = await fetch("/api/email", {
+					method: "POST",
+					body: formData,
+				});
 
-  const isButtonDisabled = !markerPosition || !imageFile;
+				const result = await response.json();
+				if (result.success) {
+					console.log("Image submitted successfully.");
+					setSubmitted(true);
+				} else {
+					console.error("Error submitting image:", result.message);
+				}
+			} catch (error) {
+				console.error("Error submitting image:", error);
+			} finally {
+				setLoading(false);
+			}
 
-  return (
-    <div className="flex flex-col w-full items-center">
-      <div className="grid w-full max-w-sm items-center gap-1.5 mb-5">
-        <Label htmlFor="picture">Select image from device</Label>
-        <Input id="picture" type="file" onChange={handleImageChange} />
-      </div>
+		}
+	};
 
-      <Button
-        onClick={handleSubmitImage}
-        disabled={isButtonDisabled}  // Disable if no marker position or image file
-      >
-        Submit image
-      </Button>
+	const isButtonDisabled = !markerPosition || !imageFile;
+
+	return (
+		<div className="flex flex-col w-full items-center p-4 bg-[#424242] rounded-xl mb-4 mr-6 mt-5">
+      {!submitted && (
+        <MapSIProvider> {/* Wrap the button and map inside the provider */}
+          <div className="mb-5">Select the image's location on the map</div>
+          <div className="w-full sm:w-[500px] h-[500px] mt-4 sm:mt-0">
+            <MapComponentSI />
+          </div>
+          <div className="flex flex-col items-center">
+            <div className="grid w-full max-w-sm items-center gap-1.5 mb-5">
+              <Label htmlFor="picture">Select image from device</Label>
+              <Input id="picture" type="file" onChange={handleImageChange} />
+            </div>
+
+            <Button onClick={handleSubmitImage} disabled={isButtonDisabled}>
+              {loading ? 'Uploading...' : 'Submit image'}
+            </Button>
+          </div>
+        </MapSIProvider>
+      )}
+
+      {/* Show this instead when image successfully submits */}
+      {submitted && (
+        <div className="mt-4">
+          <p>Thank you for submitting your image!</p>
+        </div>
+      )}
     </div>
-  );
+	);
 };
 
 export { SubmitImageButton };
