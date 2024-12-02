@@ -12,6 +12,14 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  experimental: {
+    serverActions: {
+      allowedOrigins: [
+        "utscdle:3000",
+        "utscdle.org",
+      ],
+    },
+  },
 };
 
 export default nextConfig;
