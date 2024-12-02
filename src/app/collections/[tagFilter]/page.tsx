@@ -1,19 +1,24 @@
 import { MapPin } from "lucide-react";
 import { cards } from "@/components/collections/cardData";
+import CollectionsContent from "@/components/collections/collectionsContent";
+import { ExitCollectionsButton } from "@/components/collections/exitCollectionsButton";
 
 interface CollectionsProps {
-  params: {
-    tagFilter: string;
-  };
+  tagFilter: string;
 }
 
-export default function Collections({ params }: CollectionsProps) {
-  const { tagFilter } = params;
+export default async function Collections({
+  params,
+}: {
+  params: Promise<CollectionsProps>;
+}) {
+  const { tagFilter } = await params;
 
   const card = cards.find((card) => card.tagFilter === tagFilter);
 
   return (
     <div className="min-h-screen flex flex-col items-center w-full">
+      <ExitCollectionsButton />
       <div className="pt-4 pb-4 text-center items-center justify-start">
         <div className="flex flex-col sm:flex-row items-center justify-center">
           <MapPin className="h-10 w-10 text-white sm:mr-4 mr-0" />
@@ -21,6 +26,7 @@ export default function Collections({ params }: CollectionsProps) {
         </div>
         <p className="mt-3 text-xl font-bold text-gray-300">{card?.title}</p>
       </div>
+      <CollectionsContent tagFilter={tagFilter} />
     </div>
   );
 }

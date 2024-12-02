@@ -6,13 +6,13 @@ import { auth } from "@/lib/auth";
 
 export async function GET(
   request: Request,
-  { params }: { params: { tag: string } }
+  { params }: { params: Promise<{ tag: string }> }
 ) {
   try {
     // Connect to the database
     await connectDB();
 
-    const tag = params.tag;
+    const tag = (await params).tag;
 
     // Validate the tag parameter
     if (!tag) {
