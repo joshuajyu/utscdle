@@ -75,7 +75,7 @@ export function GlobalTabContent() {
             <Button
               variant={"outline"}
               className={cn(
-                "w-56 pl-3 text-left font-normal ml-4",
+                "w-48 pl-3 text-left font-normal ml-4",
                 !selectedDate && "text-muted-foreground"
               )}
             >

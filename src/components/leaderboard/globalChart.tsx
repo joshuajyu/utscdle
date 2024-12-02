@@ -45,8 +45,8 @@ export function GlobalChart({ chartData }: GlobalChartProps) {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Top 10 Ranking</CardTitle>
-        <CardDescription>Top 10 ranking for selected date</CardDescription>
+        <CardTitle>Top 10 Players Today</CardTitle>
+        <CardDescription>View today&apos;s top scores</CardDescription>
       </CardHeader>
       <CardContent>
         {chartData.length === 0 ? (
