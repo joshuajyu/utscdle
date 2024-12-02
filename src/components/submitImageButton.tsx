@@ -9,7 +9,7 @@ import { useState } from "react";
 import { MapComponentSI } from "./mapSI";
 
 const SubmitImageButton: React.FC = () => {
-	const { markerPosition } = useMapSIContext(); // Get marker position from context
+	const { markerPosition } = useMapSIContext(); 
 	const [imageFile, setImageFile] = useState<File | null>(null);
 	const [loading, setLoading] = useState<boolean>(false);
 	const [submitted, setSubmitted] = useState(false);
@@ -17,7 +17,7 @@ const SubmitImageButton: React.FC = () => {
 	const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		let file: File | null = null;
 
-		// Check if files exist and select the first one
+		// Check if there's an image inputted
 		if (e.target.files && e.target.files.length > 0) {
 			file = e.target.files[0];
 		}
@@ -32,11 +32,10 @@ const SubmitImageButton: React.FC = () => {
 			setLoading(true);
 
 			const formData = new FormData();
-			formData.append("image", imageFile); // Append image file
-			formData.append("markerPosition", JSON.stringify(markerPosition)); // Append marker position
+			formData.append("image", imageFile); // Add image file
+			formData.append("markerPosition", JSON.stringify(markerPosition)); // Add marker position
 
 			try {
-				// Send the data to the backend API
 				const response = await fetch("/api/email", {
 					method: "POST",
 					body: formData,
@@ -63,7 +62,7 @@ const SubmitImageButton: React.FC = () => {
 	return (
 		<div className="flex flex-col w-full items-center p-4 bg-[#424242] rounded-xl mb-4 mr-6 mt-5">
       {!submitted && (
-        <MapSIProvider> {/* Wrap the button and map inside the provider */}
+        <MapSIProvider> 
           <div className="mb-5">Select the image's location on the map</div>
           <div className="w-full sm:w-[500px] h-[500px] mt-4 sm:mt-0">
             <MapComponentSI />

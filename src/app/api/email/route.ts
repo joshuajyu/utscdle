@@ -1,5 +1,3 @@
-// src/app/api/email/route.ts
-
 import { NextResponse } from "next/server";
 import sgMail from '@sendgrid/mail';
 
@@ -11,13 +9,12 @@ sgMail.setApiKey(sendGridApiKey);
 
 export async function POST(request: Request) {
   try {
-    // Parse the incoming form data (multipart form with file upload)
     const formData = await request.formData();
-    const imageFile = formData.get('image') as File; // The image file from the form
-    const markerPosition = JSON.parse(formData.get('markerPosition') as string); // Lat, Lng info
+    const imageFile = formData.get('image') as File; 
+    const markerPosition = JSON.parse(formData.get('markerPosition') as string); 
 
-    const toEmail = 'utscdle@gmail.com';  // The recipient's email
-    const userEmail = 'utscdle@gmail.com';  // The sender's email
+    const toEmail = 'utscdle@gmail.com';  // Recipient
+    const userEmail = 'utscdle@gmail.com';  // Sender
 
     if (!imageFile || !markerPosition) {
       return NextResponse.json(
@@ -26,16 +23,15 @@ export async function POST(request: Request) {
       );
     }
 
-    // Convert the image to base64 (since we need to attach it to an email)
+    // Convert the image to base64 (to attach it to email)
     const base64Image = await imageFile.arrayBuffer();
     const buffer = Buffer.from(base64Image).toString('base64');
 
-    // Prepare email data
     const emailData = {
       to: toEmail,
       from: userEmail,
       subject: 'New Image Submission',
-      text: `This is a test message: Marker Position: Latitude: ${markerPosition.lat}, Longitude: ${markerPosition.lng}`,
+      text: `Marker Position: Latitude: ${markerPosition.lat}, Longitude: ${markerPosition.lng}`,
       attachments: [
         {
           content: buffer,
@@ -46,15 +42,13 @@ export async function POST(request: Request) {
       ]
     };
 
-    // Send the email using SendGrid
     await sgMail.send(emailData);
 
-    // Return success response
     return NextResponse.json({ success: true, message: "Image submitted successfully" }, { status: 200 });
   } catch (error) {
     console.error("Error submitting image:", error);
     return NextResponse.json(
-      { success: false, message: "An error occurred while submitting the image." },
+      { success: false, message: "Error submitting the image." },
       { status: 500 }
     );
   }
