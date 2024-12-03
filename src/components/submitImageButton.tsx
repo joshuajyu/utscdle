@@ -1,4 +1,3 @@
-// components/SubmitImageButton.tsx
 "use client";
 
 import { MapSIProvider, useMapSIContext } from "../hooks/mapSIProvider";
