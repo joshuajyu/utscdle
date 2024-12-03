@@ -18,7 +18,7 @@ export default function DailyChallenge() {
 					Submit an image!
 				</p>
 			</div>
-			<MapSIProvider>  {/* Now the context is available to all children */}
+			<MapSIProvider> 
 				<div className="flex flex-col w-full items-center p-4 bg-[#424242] rounded-xl mb-4 mr-6 mt-5">
 					<SubmitImageButton />
 				</div>
